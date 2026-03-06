@@ -10,13 +10,14 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function watchLogin()
+    // show login form
+    public function showLoginForm()
     {
         return view('intern.login');
     }
 
-
-    public function submitLogin(Request $request)
+    // login
+    public function login(Request $request)
     {
         // validate request
         $request->validate([
@@ -24,21 +25,35 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        $data = Intern::where('username', $request->username)->first();
+        // find user by username
+        $intern = Intern::where('username', $request->username)->first();
 
-        if ($data && Hash::check($request->password, $data->password)) {
-            Auth::guard('interns')->login($data);
+        // check if user exists and password is correct
+        if ($intern && Hash::check($request->password, $intern->password)) {
+            Auth::guard('interns')->login($intern);
             $request->session()->regenerate();
-            return redirect()->route('dashboard')->with('success', 'Login berhasil');
+
+            noty()
+                ->theme('sunset')
+                ->closeWith(['click', 'button'])
+                ->success('Selamat datang ' . $intern->name . '! Anda berhasil login.');
+            return redirect()->route('dashboard');
         }
 
-        return redirect()->route('login.watch')->with('failed', 'Username atau password salah');
+        return redirect()->route('login.show')->with('failed', 'Username atau password salah');
     }
 
     // logout
     public function logout()
     {
+        // invalidate session
         Auth::guard('interns')->logout();
-        return redirect()->route('login.watch')->with('success', 'Logout berhasil');
+        noty()
+            ->theme('sunset')
+            ->closeWith(['click', 'button'])
+            ->success('Your account has been restored.');
+
+
+        return redirect()->route('login.show');
     }
 }
