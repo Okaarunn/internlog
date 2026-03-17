@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\Admin\Auth\AuthController as AuthAuthController;
-use App\Http\Controllers\Auth\AuthController;
-use Illuminate\Container\Attributes\Auth;
+use App\Http\Controllers\Admin\AuthController as AdminAuthController;
+use App\Http\Controllers\Intern\AbsenceController;
+use App\Http\Controllers\Intern\AuthController as InternAuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,14 +17,18 @@ Route::middleware('auth:interns')->group(function () {
     })->name('dashboard');
 
     // logout
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::post('/logout', [InternAuthController::class, 'logout'])->name('logout');
+
+    Route::post('/checkin', [AbsenceController::class, 'checkin'])->name('checkin');
+    Route::post('/checkout', [AbsenceController::class, 'checkout'])->name('checkout');
 });
 
 // routes for guest
 Route::middleware('guest')->group(function () {
-    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login.show');
-    Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
+    Route::get('/login', [InternAuthController::class, 'showLoginForm'])->name('login.show');
+    Route::post('/login', [InternAuthController::class, 'login'])->name('login.submit');
 });
+
 
 // routes for auth admin
 Route::middleware('auth:admins')->group(function () {
@@ -35,11 +39,11 @@ Route::middleware('auth:admins')->group(function () {
     })->name('admin.dashboard');
 
     // logout
-    Route::post('/admin/logout', [AuthAuthController::class, 'logout'])->name('admin.logout');
+    Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 });
 
 // routes for guest
 Route::middleware('guest')->group(function () {
-    Route::get('/admin/login', [AuthAuthController::class, 'showLoginForm'])->name('admin-login.show');
-    Route::post('/admin/login', [AuthAuthController::class, 'login'])->name('admin-login.submit');
+    Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])->name('admin-login.show');
+    Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin-login.submit');
 });

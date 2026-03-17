@@ -1,5 +1,4 @@
-<div class="min-h-screen flex items-center justify-center px-4 py-8 bg-gray-200"
-    style="font-family: 'Inter', sans-serif;">
+<div class="min-h-screen flex items-center justify-center px-4 py-8 " style="font-family: 'Inter', sans-serif;">
     <div
         class="w-full max-w-240 rounded-2xl overflow-hidden flex flex-col lg:flex-row bg-white shadow-[0_4px_24px_rgba(0,0,0,0.06)]">
 

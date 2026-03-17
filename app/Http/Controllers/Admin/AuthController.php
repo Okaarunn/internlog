@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Auth;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
@@ -13,7 +13,6 @@ class AuthController extends Controller
     // show login form
     public function showLoginForm()
     {
-        // echo Hash::make('admin123');
 
         return view('admin.login');
     }
