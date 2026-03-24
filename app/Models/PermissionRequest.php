@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Absence extends Model
+class PermissionRequest extends Model
 {
     use SoftDeletes, HasUuids;
 
@@ -16,13 +16,17 @@ class Absence extends Model
 
     protected $fillable = [
         'intern_id',
-        'admin_id',
-        'check_in',
-        'check_out',
-        'duration',
-        'notes_out',
+        'approved_by',
+        'start_date',
+        'end_date',
+        'type',
+        'reason',
         'status',
-        'validation_status',
+        'approved_at',
+    ];
+
+    protected $casts = [
+        'approved_at' => 'datetime',
     ];
 
     public function intern(): BelongsTo
@@ -30,8 +34,8 @@ class Absence extends Model
         return $this->belongsTo(Intern::class);
     }
 
-    public function admin(): BelongsTo
+    public function approvedBy(): BelongsTo
     {
-        return $this->belongsTo(Admin::class);
+        return $this->belongsTo(Admin::class, 'approved_by');
     }
 }

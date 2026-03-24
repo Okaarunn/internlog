@@ -15,11 +15,10 @@ class InternSeeder extends Seeder
      */
     public function run(): void
     {
-
         $department = Department::where('name', 'IT')->first();
 
         Intern::create([
-            'id_department' => $department->id_department,
+            'department_id' => $department->id,
             'nin' => '3516102906240001',
             'name' => 'Aditya Wijaya',
             'gender' => 'laki-laki',

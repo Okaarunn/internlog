@@ -13,7 +13,7 @@
                 </svg>
             </button>
         </div>
-        <form class="space-y-4">
+        <form class="space-y-4" method="POST" action="{{ route('checkout') }}">
             @csrf
             <div class="text-center mb-6">
                 <p class="text-[#6B7280] text-sm mb-2">Current Time</p>
@@ -33,8 +33,8 @@
             </div>
 
             <div>
-                <label class="block text-[#374151] text-sm font-medium mb-1.5">Notes (Optional)</label>
-                <textarea name="notes" rows="2" placeholder="Add any notes..."
+                <label class="block text-[#374151] text-sm font-medium mb-1.5">Notes</label>
+                <textarea name="notes_out" rows="2" placeholder="Add any notes..."
                     class="w-full px-4 py-2.5 rounded-xl border border-[#E5E7EB] text-[#1E1E1E] text-sm resize-none focus:outline-none focus:border-[#02A740] focus:ring-2 focus:ring-[#02A740]/10 transition-all"></textarea>
             </div>
             <div class="flex gap-3 pt-1">

@@ -61,7 +61,8 @@
                         Password
                     </label>
                     <div class="relative">
-                        <input type="password" id="password" name="password" placeholder="Enter your password" required
+                        <input type="password" id="password" name="password" placeholder="Enter your password"
+                            autocomplete="off" required
                             class="w-full px-4 py-3 pr-12 rounded-xl border border-[#E5E7EB] bg-[#F9FAFB] text-[#1E1E1E] text-[0.9rem] focus:border-[#145EFC] outline-none transition-all">
                         <button type="button" onclick="togglePassword()"
                             class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">

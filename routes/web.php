@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Intern\AbsenceController;
+use App\Http\Controllers\Intern\PermissionController;
 use App\Http\Controllers\Intern\AuthController as InternAuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -11,16 +12,15 @@ Authentication routes admin and user
 
 // routes for auth intern
 Route::middleware('auth:interns')->group(function () {
-    // dashboard
-    Route::get('/', function () {
-        return view('intern.dashboard');
-    })->name('dashboard');
+    // routes/web.php
+    Route::get('/', [AbsenceController::class, 'index'])->name('intern.dashboard');
 
     // logout
     Route::post('/logout', [InternAuthController::class, 'logout'])->name('logout');
 
     Route::post('/checkin', [AbsenceController::class, 'checkin'])->name('checkin');
     Route::post('/checkout', [AbsenceController::class, 'checkout'])->name('checkout');
+    Route::post('/permission', [PermissionController::class, 'store'])->name('permission.store');
 });
 
 // routes for guest

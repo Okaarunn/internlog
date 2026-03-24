@@ -11,24 +11,17 @@ class Department extends Model
 {
     use SoftDeletes, HasUuids;
 
-    protected $primaryKey = 'id_department';
-    public $incrementing = false;
     protected $keyType = 'string';
+    public $incrementing = false;
 
     protected $fillable = [
-        'id_department',
         'name',
         'start_time',
         'end_time',
     ];
 
-    public function uniqueIds(): array
-    {
-        return ['id_department'];
-    }
-
     public function interns(): HasMany
     {
-        return $this->hasMany(Intern::class, 'id_department', 'id_department');
+        return $this->hasMany(Intern::class);
     }
 }

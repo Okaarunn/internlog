@@ -3,21 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Admin extends Authenticatable
 {
-    use HasFactory, Notifiable, SoftDeletes, HasUuids;
+    use SoftDeletes, HasUuids;
 
-
-
-    protected $primaryKey = 'id_admin';
-    public $incrementing = false;
     protected $keyType = 'string';
+    public $incrementing = false;
 
     protected $fillable = [
         'name',
@@ -25,19 +20,10 @@ class Admin extends Authenticatable
         'password',
     ];
 
-    protected $hidden = [
-        'password',
-    ];
+    protected $hidden = ['password'];
 
-    // generate otomatis uuid
-    public function uniqueIds(): array
-    {
-        return ['id_admin'];
-    }
-
-    // one to many relationship with absence
     public function absences(): HasMany
     {
-        return $this->hasMany(Absence::class, 'id_admin', 'id_admin');
+        return $this->hasMany(Absence::class);
     }
 }

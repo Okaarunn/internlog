@@ -31,11 +31,7 @@
                         id="modal-clock-s">00</span>
                 </div>
             </div>
-            <div id="late" class="hidden">
-                <label class="block text-[#374151] text-sm font-medium mb-1.5">Terlambat</label>
-                <input type="text" name="information" placeholder="Berikan keterangan keterlambatan"
-                    class="w-full px-4 py-2.5 rounded-xl border border-[#E5E7EB] text-[#1E1E1E] text-sm focus:outline-none focus:border-[#145EFC] focus:ring-2 focus:ring-[#145EFC]/10 transition-all">
-            </div>
+
             <div class="flex gap-3 pt-1">
                 <button type="button" onclick="document.getElementById('checkin-modal').classList.add('hidden')"
                     class="flex-1 py-2.5 rounded-xl border border-[#E5E7EB] text-[#6B7280] text-sm font-medium hover:bg-[#F9FAFB] transition-all">
@@ -60,18 +56,4 @@
     }
     updateModalClock();
     setInterval(updateModalClock, 1000);
-
-    function showInformationInput() {
-        const late = document.getElementById('late');
-        const now = new Date().getHours();
-
-        // logic show input
-        if (now >= 8) {
-            late.classList.remove("hidden");
-        }
-    }
-
-    showInformationInput();
-
-    showInformationInput();
 </script>

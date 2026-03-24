@@ -13,7 +13,7 @@
                 </svg>
             </button>
         </div>
-        <form class="space-y-4">
+        <form action="{{ route('permission.store') }}" method="POST" class="space-y-4">
             @csrf
             <div>
                 <label class="block text-[#374151] text-sm font-medium mb-1.5">Date</label>
