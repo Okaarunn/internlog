@@ -13,36 +13,44 @@ class AbsenceController extends Controller
     public function index(Request $request)
     {
         $internId = Auth::guard('interns')->id();
+        $intern = Auth::guard('interns')->user();
 
         $month = $request->input('month', now()->month);
         $year  = $request->input('year', now()->year);
 
         $absences = Absence::where('intern_id', $internId)
-            ->whereMonth('created_at', $month)
-            ->whereYear('created_at', $year)
-            ->orderBy('created_at', 'desc')
-            ->paginate(5)->withQueryString();
+            ->whereMonth('date', $month)
+            ->whereYear('date', $year)
+            ->orderBy('date', 'desc')
+            ->paginate(10)->withQueryString();
 
         $todayAbsence = Absence::where('intern_id', $internId)
-            ->whereDate('created_at', today())
+            ->whereDate('date', today())
             ->first();
 
         // summary berdasarkan bulan & tahun yang difilter
         $allAbsences = Absence::where('intern_id', $internId)
-            ->whereMonth('created_at', $month)
-            ->whereYear('created_at', $year)
+            ->whereMonth('date', $month)
+            ->whereYear('date', $year)
             ->get();
 
+        $startDate = Carbon::parse($intern->start_date);
+        $endDate   = Carbon::parse($intern->end_date);
+        $workDays  = 0;
+
+        for ($date = $startDate->copy(); $date->lte($endDate); $date->addDay()) {
+            if (!$date->isSunday()) {
+                $workDays++;
+            }
+        }
         $summary = [
-            'work_days' => $allAbsences->count(),
+            'work_days' => $workDays,
             'hadir'     => $allAbsences->whereIn('status', ['hadir', 'terlambat'])
-                ->where('validation_status', '!=', 'ditolak')
+                ->where('validation_status', 'disetujui')
                 ->count(),
             'menunggu'  => $allAbsences->where('validation_status', 'menunggu')->count(),
-            'alpha'     => $allAbsences->filter(function ($absence) {
-                return $absence->status === 'alpha'
-                    || $absence->validation_status === 'ditolak';
-            })->count(),
+            'alpha'  => $allAbsences->where('status', 'alpha')->count(),
+
         ];
 
         return view('intern.dashboard', compact('absences', 'todayAbsence', 'summary'));
@@ -54,7 +62,7 @@ class AbsenceController extends Controller
         $internId = Auth::guard('interns')->id();
 
         $alreadyCheckin = Absence::where('intern_id', $internId)
-            ->whereDate('created_at', today())
+            ->whereDate('date', today())
             ->exists();
 
         if ($alreadyCheckin) {
@@ -74,6 +82,7 @@ class AbsenceController extends Controller
 
         Absence::create([
             'intern_id'         => $internId,
+            'date' => today(),
             'check_in'          => now()->format('H:i:s'),
             'status'            => $status,
             'validation_status' => null,
@@ -88,7 +97,7 @@ class AbsenceController extends Controller
         $internId = Auth::guard('interns')->id();
 
         $todayAbsence = Absence::where('intern_id', $internId)
-            ->whereDate('created_at', today())
+            ->whereDate('date', today())
             ->first();
 
         if (!$todayAbsence) {
@@ -97,6 +106,9 @@ class AbsenceController extends Controller
 
         if ($todayAbsence->check_out !== null) {
             return redirect()->back()->with('error', 'Anda sudah check out hari ini');
+        }
+        if ($todayAbsence->status === 'alpha') {
+            return redirect()->back()->with('error', 'Anda tercatat alpha hari ini');
         }
 
         // get departement
@@ -107,6 +119,7 @@ class AbsenceController extends Controller
         $checkIn  = Carbon::parse($todayAbsence->check_in);
         $duration = (int) $checkIn->diffInMinutes($checkOut);
 
+        $validation_status = 'disetujui';
 
         if ($checkOut->lessThan($end_time)) {
             $validation_status = 'menunggu';

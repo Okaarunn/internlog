@@ -37,7 +37,7 @@ class AuthController extends Controller
                 ->theme('sunset')
                 ->closeWith(['click', 'button'])
                 ->success('Selamat datang ' . $intern->name . '! Anda berhasil login.');
-            return redirect()->route('dashboard');
+            return redirect()->route('intern.dashboard');
         }
 
         return redirect()->route('login.show')->with('failed', 'Username atau password salah');
@@ -51,7 +51,7 @@ class AuthController extends Controller
         noty()
             ->theme('sunset')
             ->closeWith(['click', 'button'])
-            ->success('Your account has been restored.');
+            ->success('Anda berhasil logout.');
 
 
         return redirect()->route('login.show');

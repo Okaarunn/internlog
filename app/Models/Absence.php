@@ -17,6 +17,7 @@ class Absence extends Model
     protected $fillable = [
         'intern_id',
         'admin_id',
+        'date',
         'check_in',
         'check_out',
         'duration',

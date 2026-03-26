@@ -3,6 +3,8 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use App\Console\Commands\MarkAlphaAbsence;
+use Illuminate\Console\Scheduling\Schedule;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -12,6 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->redirectGuestsTo('/login');
+    })
+    ->withSchedule(function (Schedule $schedule) {
+        $schedule->command(MarkAlphaAbsence::class)->dailyAt('13:32');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

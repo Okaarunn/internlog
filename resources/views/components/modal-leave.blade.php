@@ -20,11 +20,23 @@
                 <input type="date" name="date" value="{{ now()->format('Y-m-d') }}"
                     class="w-full px-4 py-2.5 rounded-xl border border-[#E5E7EB] text-[#1E1E1E] text-sm focus:outline-none focus:border-[#145EFC] focus:ring-2 focus:ring-[#145EFC]/10 transition-all">
             </div>
+
+            {{-- Tambahkan ini --}}
+            <div>
+                <label class="block text-[#374151] text-sm font-medium mb-1.5">Type</label>
+                <select name="type"
+                    class="w-full px-4 py-2.5 rounded-xl border border-[#E5E7EB] text-[#1E1E1E] text-sm focus:outline-none focus:border-[#145EFC] focus:ring-2 focus:ring-[#145EFC]/10 transition-all">
+                    <option value="izin">Izin</option>
+                    <option value="sakit">Sakit</option>
+                </select>
+            </div>
+
             <div>
                 <label class="block text-[#374151] text-sm font-medium mb-1.5">Reason</label>
                 <textarea name="description" rows="3" placeholder="Describe your reason..."
                     class="w-full px-4 py-2.5 rounded-xl border border-[#E5E7EB] text-[#1E1E1E] text-sm resize-none focus:outline-none focus:border-[#145EFC] focus:ring-2 focus:ring-[#145EFC]/10 transition-all"></textarea>
             </div>
+
             <div class="flex gap-3 pt-1">
                 <button type="button" onclick="document.getElementById('leave-modal').classList.add('hidden')"
                     class="flex-1 py-2.5 rounded-xl border border-[#E5E7EB] text-[#6B7280] text-sm font-medium hover:bg-[#F9FAFB] transition-all">

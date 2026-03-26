@@ -15,6 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->uuid('intern_id');
             $table->uuid('admin_id')->nullable();
+            $table->date('date')->nullable();
 
             $table->time('check_in')->nullable();
             $table->time('check_out')->nullable();

@@ -1,7 +1,7 @@
 <x-intern-layout title="Dashboard - Internlog">
     {{-- Summary Cards --}}
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <x-summary-card label="Work Days" value="100" color="#145EFC" bgColor="#E8F0FE"
+        <x-summary-card label="Work Days" :value="$summary['work_days']" color="#145EFC" bgColor="#E8F0FE"
             icon='<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" /></svg>' />
         <x-summary-card label="hadir" :value="$summary['hadir']" color="#02A740" bgColor="#E8F5EE"
             icon='<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>' />
@@ -53,7 +53,7 @@
             </button>
 
             {{-- Check Out --}}
-            @if (!$todayAbsence || $todayAbsence->check_out)
+            @if (!$todayAbsence || $todayAbsence->check_out || $todayAbsence->status === 'alpha')
                 <button type="button" disabled
                     class="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl text-white text-[0.9rem] font-semibold bg-[#02A740] opacity-40 cursor-not-allowed">
                 @else
@@ -66,8 +66,16 @@
                 <path stroke-linecap="round" stroke-linejoin="round"
                     d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25" />
             </svg>
-            {{ $todayAbsence?->check_out ? 'Sudah Check Out' : 'Check Out' }}
+            @if ($todayAbsence?->status === 'alpha')
+                Alpha
+            @elseif($todayAbsence?->check_out)
+                Sudah Check Out
+            @else
+                Check Out
+            @endif
             </button>
+
+
 
             {{-- Leave / Permission --}}
 
@@ -176,7 +184,7 @@
                         @endphp
                         <tr class="{{ !$loop->last ? 'border-b border-[#F0F0F0]' : '' }} hover:bg-[#FAFBFC]">
                             <td class="px-6 py-4 text-[#1E1E1E] text-sm font-medium">
-                                {{ \Carbon\Carbon::parse($absence->created_at)->translatedFormat('d M Y') }}
+                                {{ \Carbon\Carbon::parse($absence->date)->translatedFormat('d M Y') }}
                             </td>
                             <td class="px-6 py-4">
                                 <span class="inline-block px-3 py-1 rounded-full text-[0.78rem] font-semibold"
