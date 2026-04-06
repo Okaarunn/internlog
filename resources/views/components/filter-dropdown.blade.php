@@ -5,16 +5,19 @@
     'options', // array of ['label' => '', 'value' => '']
 ])
 
-<div class="relative flex-1 sm:flex-none" x-data="{ open: false }" @click.outside="open = false">
+<div class="relative flex-1 sm:flex-none" x-data="{
+    open: false,
+    selected: '{{ $value }}'
+}" @click.outside="open = false">
     <button type="button" @click="open = !open"
         :class="open ? 'border-[#145EFC] shadow-[0_0_0_3px_rgba(20,94,252,0.1)]' : 'border-[#E5E7EB] hover:border-[#C5D2E0]'"
         class="w-full sm:w-[180px] flex items-center justify-between gap-2 px-4 py-2.5 rounded-xl border bg-white text-[0.875rem] font-medium text-[#1E1E1E] cursor-pointer transition-all">
         <span class="truncate">
-            @foreach ($options as $option)
-                @if ($option['value'] == $value)
-                    {{ $option['label'] }}
-                @endif
-            @endforeach
+            <span class="truncate">
+                <template x-for="opt in {{ json_encode($options) }}" :key="opt.value">
+                    <span x-show="opt.value == selected" x-text="opt.label"></span>
+                </template>
+            </span>
         </span>
         <svg class="w-4 h-4 shrink-0 text-[#9CA3AF] transition-transform duration-200"
             :class="open ? 'rotate-180' : 'rotate-0'" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -31,7 +34,11 @@
         <div class="max-h-[220px] overflow-y-auto py-1">
             @foreach ($options as $option)
                 <button type="button"
-                    onclick="selectOption('{{ $name }}', '{{ $option['value'] }}'); open = false"
+                    @click="
+    selected = '{{ $option['value'] }}';
+    document.getElementById('input-{{ $name }}').value = selected;
+    open = false;
+"
                     @click="open = false"
                     class="w-full px-4 py-2.5 text-left text-[0.85rem] cursor-pointer transition-colors flex items-center justify-between
                         {{ $option['value'] == $value ? 'bg-[#F0F4FF] text-[#145EFC] font-semibold' : 'text-[#1E1E1E] font-normal hover:bg-[#F9FAFB]' }}">

@@ -16,14 +16,20 @@
         <form action="{{ route('permission.store') }}" method="POST" class="space-y-4">
             @csrf
             <div>
-                <label class="block text-[#374151] text-sm font-medium mb-1.5">Date</label>
-                <input type="date" name="date" value="{{ now()->format('Y-m-d') }}"
+                <label class="block text-[#374151] text-sm font-medium mb-1.5">Tanggal mulai</label>
+                <input type="date" name="start_date" value="{{ now()->format('Y-m-d') }}"
+                    class="w-full px-4 py-2.5 rounded-xl border border-[#E5E7EB] text-[#1E1E1E] text-sm focus:outline-none focus:border-[#145EFC] focus:ring-2 focus:ring-[#145EFC]/10 transition-all">
+            </div>
+
+            <div>
+                <label class="block text-[#374151] text-sm font-medium mb-1.5">Tanggal selesai</label>
+                <input type="date" name="end_date" value="{{ now()->format('Y-m-d') }}"
                     class="w-full px-4 py-2.5 rounded-xl border border-[#E5E7EB] text-[#1E1E1E] text-sm focus:outline-none focus:border-[#145EFC] focus:ring-2 focus:ring-[#145EFC]/10 transition-all">
             </div>
 
             {{-- Tambahkan ini --}}
             <div>
-                <label class="block text-[#374151] text-sm font-medium mb-1.5">Type</label>
+                <label class="block text-[#374151] text-sm font-medium mb-1.5">Tipe izin</label>
                 <select name="type"
                     class="w-full px-4 py-2.5 rounded-xl border border-[#E5E7EB] text-[#1E1E1E] text-sm focus:outline-none focus:border-[#145EFC] focus:ring-2 focus:ring-[#145EFC]/10 transition-all">
                     <option value="izin">Izin</option>
@@ -32,19 +38,19 @@
             </div>
 
             <div>
-                <label class="block text-[#374151] text-sm font-medium mb-1.5">Reason</label>
-                <textarea name="description" rows="3" placeholder="Describe your reason..."
+                <label class="block text-[#374151] text-sm font-medium mb-1.5">Alasan</label>
+                <textarea name="description" rows="3" placeholder="Deskripsikan alasan kamu..."
                     class="w-full px-4 py-2.5 rounded-xl border border-[#E5E7EB] text-[#1E1E1E] text-sm resize-none focus:outline-none focus:border-[#145EFC] focus:ring-2 focus:ring-[#145EFC]/10 transition-all"></textarea>
             </div>
 
             <div class="flex gap-3 pt-1">
                 <button type="button" onclick="document.getElementById('leave-modal').classList.add('hidden')"
                     class="flex-1 py-2.5 rounded-xl border border-[#E5E7EB] text-[#6B7280] text-sm font-medium hover:bg-[#F9FAFB] transition-all">
-                    Cancel
+                    Batal
                 </button>
                 <button type="submit"
                     class="flex-1 py-2.5 rounded-xl bg-[#F54900] hover:bg-[#D94000] text-white text-sm font-semibold transition-all shadow-[0_2px_8px_rgba(245,73,0,0.25)]">
-                    Submit Request
+                    Ajukan izin
                 </button>
             </div>
         </form>

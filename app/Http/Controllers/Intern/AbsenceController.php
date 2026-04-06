@@ -10,51 +10,6 @@ use Illuminate\Support\Facades\Auth;
 
 class AbsenceController extends Controller
 {
-    public function index(Request $request)
-    {
-        $internId = Auth::guard('interns')->id();
-        $intern = Auth::guard('interns')->user();
-
-        $month = $request->input('month', now()->month);
-        $year  = $request->input('year', now()->year);
-
-        $absences = Absence::where('intern_id', $internId)
-            ->whereMonth('date', $month)
-            ->whereYear('date', $year)
-            ->orderBy('date', 'desc')
-            ->paginate(10)->withQueryString();
-
-        $todayAbsence = Absence::where('intern_id', $internId)
-            ->whereDate('date', today())
-            ->first();
-
-        // summary berdasarkan bulan & tahun yang difilter
-        $allAbsences = Absence::where('intern_id', $internId)
-            ->whereMonth('date', $month)
-            ->whereYear('date', $year)
-            ->get();
-
-        $startDate = Carbon::parse($intern->start_date);
-        $endDate   = Carbon::parse($intern->end_date);
-        $workDays  = 0;
-
-        for ($date = $startDate->copy(); $date->lte($endDate); $date->addDay()) {
-            if (!$date->isSunday()) {
-                $workDays++;
-            }
-        }
-        $summary = [
-            'work_days' => $workDays,
-            'hadir'     => $allAbsences->whereIn('status', ['hadir', 'terlambat'])
-                ->where('validation_status', 'disetujui')
-                ->count(),
-            'menunggu'  => $allAbsences->where('validation_status', 'menunggu')->count(),
-            'alpha'  => $allAbsences->where('status', 'alpha')->count(),
-
-        ];
-
-        return view('intern.dashboard', compact('absences', 'todayAbsence', 'summary'));
-    }
 
     // checkin
     public function checkin(Request $request)
