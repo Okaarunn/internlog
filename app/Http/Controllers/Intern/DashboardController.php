@@ -51,7 +51,6 @@ class DashboardController extends Controller
         $summary = [
             'work_days' => $workDays,
             'hadir'     => $allAbsences->whereIn('status', ['hadir', 'terlambat'])
-                ->where('validation_status', 'disetujui')
                 ->count(),
             'menunggu'  => $allAbsences->where('validation_status', 'menunggu')->count(),
             'alpha'  => $allAbsences->where('status', 'alpha')->count(),

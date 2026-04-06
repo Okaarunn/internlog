@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
+use App\Http\Controllers\Admin\DashboardAdminController;
+use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Intern\AbsenceController;
-use App\Http\Controllers\Intern\PermissionController;
 use App\Http\Controllers\Intern\AuthController as InternAuthController;
 use App\Http\Controllers\Intern\DashboardController;
+use App\Http\Controllers\Intern\PermissionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,9 +37,12 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth:admins')->group(function () {
 
     // dashboard 
-    Route::get('/admin/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
+    Route::get('/admin/dashboard', [DashboardAdminController::class, 'index'])
+        ->name('admin.dashboard');
+
+
+    // departments
+    Route::get('admin/department', [DepartmentController::class, 'index'])->name('admin.department');
 
     // logout
     Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
