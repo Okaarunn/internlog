@@ -30,6 +30,11 @@ class Intern extends Authenticatable
 
     protected $hidden = ['password'];
 
+    protected $casts = [
+        'start_date' => 'date',
+        'end_date' => 'date',
+    ];
+
     public function department(): BelongsTo
     {
         return $this->belongsTo(Department::class);

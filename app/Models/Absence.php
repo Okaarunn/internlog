@@ -26,6 +26,10 @@ class Absence extends Model
         'validation_status',
     ];
 
+    protected $casts = [
+        'date' => 'date',
+    ];
+
     public function intern(): BelongsTo
     {
         return $this->belongsTo(Intern::class);

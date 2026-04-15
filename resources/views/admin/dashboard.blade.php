@@ -1,13 +1,12 @@
 <x-admin-layout>
     <div class="p-4 sm:ml-64 mt-14">
+
+        {{-- header --}}
+        <div class="my-6">
+            <h1 class="text-xl font-semibold text-gray-800">Dashboard</h1>
+            <p class="text-sm text-gray-400">Ringkasan kehadiran peserta magang</p>
+        </div>
         <div class="p-4 border border-dashed border-default rounded-base">
-
-            {{-- header --}}
-            <div class="mb-6">
-                <h1 class="text-xl font-semibold text-gray-800">Dashboard</h1>
-                <p class="text-sm text-gray-400">Ringkasan kehadiran peserta magang</p>
-            </div>
-
             {{-- summary cards --}}
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
 

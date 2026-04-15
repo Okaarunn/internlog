@@ -29,21 +29,33 @@ class AbsenceController extends Controller
         $startTime = Carbon::parse($intern->department->start_time);
         $now = now();
 
+
+        // validation and status
         if ($now->lessThan($startTime)) {
             $status = 'hadir';
+            $validation_status = "disetujui";
         } else {
             $status = 'terlambat';
+            $validation_status = "menunggu";
         }
 
+        // create data
         Absence::create([
             'intern_id'         => $internId,
             'date' => today(),
             'check_in'          => now()->format('H:i:s'),
             'status'            => $status,
-            'validation_status' => null,
+            'validation_status' => $validation_status,
         ]);
 
-        return redirect()->back()->with('success', 'Check in berhasil');
+
+        // notification
+        noty()
+            ->theme('sunset')
+            ->closeWith(['click', 'button'])
+            ->success('Check in berhasil.');
+
+        return redirect()->back();
     }
 
     // checkout
@@ -56,14 +68,26 @@ class AbsenceController extends Controller
             ->first();
 
         if (!$todayAbsence) {
-            return redirect()->back()->with('error', 'Anda belum check in hari ini');
+            noty()
+                ->theme('sunset')
+                ->closeWith(['click', 'button'])
+                ->error('Anda belum check in hari ini.');
+            return redirect()->back();
         }
 
         if ($todayAbsence->check_out !== null) {
-            return redirect()->back()->with('error', 'Anda sudah check out hari ini');
+            noty()
+                ->theme('sunset')
+                ->closeWith(['click', 'button'])
+                ->error('Anda sudah check out hari ini.');
+            return redirect()->back();
         }
         if ($todayAbsence->status === 'alpha') {
-            return redirect()->back()->with('error', 'Anda tercatat alpha hari ini');
+            noty()
+                ->theme('sunset')
+                ->closeWith(['click', 'button'])
+                ->error('Anda tercatat alpha hari ini.');
+            return redirect()->back();
         }
 
         // get departement
@@ -87,6 +111,12 @@ class AbsenceController extends Controller
             'validation_status' => $validation_status
         ]);
 
-        return redirect()->back()->with('success', 'Check out berhasil');
+        // notification
+        noty()
+            ->theme('sunset')
+            ->closeWith(['click', 'button'])
+            ->success('Check out berhasil.');
+
+        return redirect()->back();
     }
 }
