@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\PermissionRequest;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
@@ -21,5 +22,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Paginator::useTailwind();
+
+        // get total status pending in permission
+        view()->composer('*', function ($view) {
+            $pendingCount = PermissionRequest::where('status', 'pending')->count();
+            $view->with('permissionPendingCount', $pendingCount);
+        });
     }
 }

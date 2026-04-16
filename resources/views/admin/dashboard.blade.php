@@ -1,5 +1,5 @@
 <x-admin-layout>
-    <div class="p-4 sm:ml-64 mt-14">
+    <div class="p-4 sm:ml-64 mt-13">
 
         {{-- header --}}
         <div class="my-6">

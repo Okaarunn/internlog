@@ -1,5 +1,5 @@
 <x-admin-layout>
-    <div class="p-6 sm:ml-64 mt-14 bg-gray-50 min-h-screen">
+    <div class="p-6 sm:ml-64 mt-14 bg-gray-50">
 
         {{-- header --}}
         <div class="flex items-center justify-between mb-6">
@@ -45,7 +45,7 @@
                         </svg>
                     </div>
                     <input type="text" name="search" value="{{ request('search') }}"
-                        class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg 
+                        class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg
                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-all"
                         placeholder="Cari nama, username, atau NIK peserta...">
                 </div>
@@ -53,7 +53,7 @@
                 {{-- Filter Departemen --}}
                 <div class="w-56">
                     <select name="department_id" onchange="this.form.submit()"
-                        class="block w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm 
+                        class="block w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm
                    focus:ring-2 focus:ring-blue-500 transition-all bg-white">
                         <option value="">Semua Departemen</option>
                         @foreach ($departments as $department)
@@ -68,8 +68,6 @@
             </form>
         </div>
 
-
-
         @if ($errors->any())
             <div class="bg-red-100 text-red-700 p-3 rounded mb-4">
                 <ul>
@@ -79,7 +77,6 @@
                 </ul>
             </div>
         @endif
-
 
         {{-- table --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
@@ -326,7 +323,6 @@
     </div>
 
     {{-- modal create --}}
-
     <x-create-modal id="create-intern-modal" title="Tambah Peserta Magang" method="POST" :action="route('admin.intern.store')"
         maxWidth="lg">
         <x-slot:body>
@@ -423,12 +419,4 @@
             </div>
         </x-slot:body>
     </x-create-modal>
-
-
-
-
-
-
-
-
 </x-admin-layout>

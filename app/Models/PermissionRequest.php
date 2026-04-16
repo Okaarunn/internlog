@@ -27,6 +27,8 @@ class PermissionRequest extends Model
 
     protected $casts = [
         'approved_at' => 'datetime',
+        'start_date' => 'date',
+        'end_date' => 'date',
     ];
 
     public function intern(): BelongsTo
@@ -37,5 +39,11 @@ class PermissionRequest extends Model
     public function approvedBy(): BelongsTo
     {
         return $this->belongsTo(Admin::class, 'approved_by');
+    }
+
+    public function absences()
+    {
+        return $this->intern->absences()
+            ->whereBetween('date', [$this->start_date, $this->end_date]);
     }
 }

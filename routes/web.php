@@ -9,6 +9,7 @@ use App\Http\Controllers\Intern\AuthController as InternAuthController;
 use App\Http\Controllers\Intern\DashboardController;
 use App\Http\Controllers\Intern\PermissionController;
 use App\Http\Controllers\Admin\InternController;
+use App\Http\Controllers\admin\PermissionManagementController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,7 +39,7 @@ Route::middleware('guest')->group(function () {
 // routes for auth admin
 Route::middleware('auth:admins')->group(function () {
 
-    // dashboard 
+    // dashboard
     Route::get('/admin/dashboard', [DashboardAdminController::class, 'index'])
         ->name('admin.dashboard');
 
@@ -50,7 +51,11 @@ Route::middleware('auth:admins')->group(function () {
 
     // absence
     Route::get('/admin/absence', [AbsenceManagementController::class, 'index'])->name('admin.absence');
-    Route::get('/admin/absence/{id}', [AbsenceManagementController::class, 'update'])->name('admin.absence.update');
+    Route::put('/admin/absence/{id}', [AbsenceManagementController::class, 'update'])->name('admin.absence.update');
+
+    // permission
+    Route::get('/admin/permission', [PermissionManagementController::class, 'index'])->name('admin.permission');
+    Route::put('/admin/permission/{id}', [PermissionManagementController::class, 'update'])->name('admin.permission.update');
 
     // intern
     Route::get('/admin/intern', [InternController::class, 'index'])->name('admin.intern');
