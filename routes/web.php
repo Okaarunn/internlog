@@ -12,9 +12,27 @@ use App\Http\Controllers\Admin\InternController;
 use App\Http\Controllers\admin\PermissionManagementController;
 use Illuminate\Support\Facades\Route;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
+
 /*
 Authentication routes admin and user
 */
+
+Route::get('/cron-absensi', function (Request $request) {
+
+
+    if (!$request->header('x-vercel-cron') && app()->environment('production')) {
+        abort(403, 'Unauthorized - Header missing');
+    }
+
+    try {
+        Artisan::call('absence:mark-alpha');
+        return response()->json(['status' => 'success', 'message' => 'Absensi diproses']);
+    } catch (\Exception $e) {
+        return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+    }
+});
 
 // routes for auth intern
 Route::middleware('auth:interns')->group(function () {
@@ -62,6 +80,8 @@ Route::middleware('auth:admins')->group(function () {
     Route::post('/admin/intern', [InternController::class, 'store'])->name('admin.intern.store');
     Route::put('/admin/intern/{id}', [InternController::class, 'update'])->name('admin.intern.update');
     Route::delete('/admin/intern/{id}', [InternController::class, 'destroy'])->name('admin.intern.destroy');
+
+
 
     // logout
     Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');

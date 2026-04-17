@@ -31,13 +31,13 @@ class MarkAlphaAbsence extends Command
                 continue;
             }
 
-            $alreadyAbsent = Absence::where('intern_id', $intern->id) // $intern->id bukan id_intern
+            $alreadyAbsent = Absence::where('intern_id', $intern->id)
                 ->whereDate('created_at', today())
                 ->exists();
 
             if (!$alreadyAbsent) {
                 Absence::create([
-                    'intern_id'         => $intern->id, // $intern->id
+                    'intern_id'         => $intern->id,
                     'status'            => 'alpha',
                     'validation_status' => 'disetujui',
                 ]);

@@ -1,5 +1,11 @@
 {
     "version": 2,
+    "crons": [
+        {
+            "path": "/cron-absensi",
+            "schedule": "0 6 * * *"
+        }
+    ],
     "functions": {
         "api/index.php": {
             "runtime": "vercel-php@0.7.1"
