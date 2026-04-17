@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Models\PermissionRequest;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\URL;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,5 +30,9 @@ class AppServiceProvider extends ServiceProvider
             $pendingCount = PermissionRequest::where('status', 'pending')->count();
             $view->with('permissionPendingCount', $pendingCount);
         });
+
+        if (config('app.env') === 'production' || config('app.env') === 'staging') {
+            URL::forceScheme('https');
+        }
     }
 }
