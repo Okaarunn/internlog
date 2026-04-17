@@ -23,21 +23,21 @@ class MarkAlphaAbsence extends Command
         $interns = Intern::with('department')->get();
 
         foreach ($interns as $intern) {
-            $endTime = Carbon::parse($intern->department->end_time);
+            $endTime = Carbon::today()->setTimeFromTimeString($intern->department->end_time);
 
             // Skip jika belum jam pulang
             if ($today->lessThan($endTime)) {
-                $this->info("Skip {$intern->name} - belum jam pulang");
                 continue;
             }
 
             $alreadyAbsent = Absence::where('intern_id', $intern->id)
-                ->whereDate('created_at', today())
+                ->whereDate('date', today())
                 ->exists();
 
             if (!$alreadyAbsent) {
                 Absence::create([
                     'intern_id'         => $intern->id,
+                    'date'              => today(),
                     'status'            => 'alpha',
                     'validation_status' => 'disetujui',
                 ]);

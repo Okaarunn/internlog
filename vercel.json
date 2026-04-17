@@ -2,8 +2,8 @@
     "version": 2,
     "crons": [
         {
-            "path": "/cron-absensi",
-            "schedule": "0 6 * * *"
+            "path": "/cron-absensi?token=c8f3f1be5e2abac28242abcd7123d404f0f0c7e623c479df5d63575e24660fdb",
+            "schedule": "1 9 * * *"
         }
     ],
     "functions": {
@@ -11,6 +11,7 @@
             "runtime": "vercel-php@0.7.1"
         }
     },
+    "buildCommand": "npm run build",
     "routes": [
         {
             "src": "/build/(.*)",

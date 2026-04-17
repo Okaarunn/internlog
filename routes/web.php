@@ -19,18 +19,27 @@ use Illuminate\Support\Facades\Artisan;
 Authentication routes admin and user
 */
 
+// routes/web.php
 Route::get('/cron-absensi', function (Request $request) {
 
+    $token = $request->query('token') ?? $request->header('x-cron-secret');
 
-    if (!$request->header('x-vercel-cron') && app()->environment('production')) {
-        abort(403, 'Unauthorized - Header missing');
+    if ($token !== config('app.cron_secret')) {
+        abort(403, 'Unauthorized');
     }
 
     try {
         Artisan::call('absence:mark-alpha');
-        return response()->json(['status' => 'success', 'message' => 'Absensi diproses']);
+        return response()->json([
+            'status'  => 'success',
+            'message' => 'Absensi diproses',
+            'output'  => Artisan::output(),
+        ]);
     } catch (\Exception $e) {
-        return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+        return response()->json([
+            'status'  => 'error',
+            'message' => $e->getMessage(),
+        ], 500);
     }
 });
 
