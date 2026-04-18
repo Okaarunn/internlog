@@ -20,7 +20,7 @@ class AbsenceManagementController extends Controller
         $filterDept = $request->input('department_id');
         $filterDate = $request->input('date');
 
-        $absences = Absence::with(['intern.department'])
+        $absences = Absence::with(['intern.department', 'admin'])
             ->when($search, function ($query, $search) {
                 return $query->whereHas('intern', function ($q) use ($search) {
                     $q->where('name', 'like', "%{$search}%")

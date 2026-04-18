@@ -11,9 +11,24 @@ use function Symfony\Component\Clock\now;
 
 class PermissionManagementController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $permissions = PermissionRequest::all();
+        $query = PermissionRequest::with(['intern.department', 'approvedBy']);
+        
+        // Filter berdasarkan pencarian nama
+        if ($request->filled('search')) {
+            $query->whereHas('intern', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->search . '%');
+            });
+        }
+        
+        // Filter berdasarkan status
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+        
+        $permissions = $query->orderBy('created_at', 'desc')->get();
+        
         return view('admin.permission', compact('permissions'));
     }
 

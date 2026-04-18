@@ -139,6 +139,9 @@
                                     {{ $absence->validation_status }}
                                 </span>
                             </td>
+                            <td class="px-6 py-4">
+                                {{ $absence->admin->name ?? '-' }}
+                            </td>
                             <td class="px-6 py-4 text-blue-500 cursor-pointer">
                                 <button type="button" data-modal-target="edit-absence-modal-{{ $absence->id }}"
                                     data-modal-toggle="edit-absence-modal-{{ $absence->id }}">Lihat</button>

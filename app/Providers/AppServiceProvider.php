@@ -25,8 +25,8 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useTailwind();
 
-        // get total status pending in permission
-        view()->composer('*', function ($view) {
+        // get total status pending in permission for admin views only
+        view()->composer(['admin.*', 'components.sidebar'], function ($view) {
             $pendingCount = PermissionRequest::where('status', 'pending')->count();
             $view->with('permissionPendingCount', $pendingCount);
         });
