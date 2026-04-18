@@ -18,13 +18,13 @@
                 </div>
 
                 <h1 class="tracking-tight text-[#1E1E1E] text-[1.75rem] font-bold">
-                    <span class="hidden lg:inline">Welcome Back</span>
+                    <span class="hidden lg:inline">Selamat Datang</span>
                     <span class="lg:hidden">Internlog</span>
                 </h1>
 
                 <p class="mt-1 text-[#6B7280] text-[0.875rem]">
-                    <span class="hidden lg:inline">Sign in to your account to continue</span>
-                    <span class="lg:hidden">Intern Attendance System Login</span>
+                    <span class="hidden lg:inline">Masuk ke akun Anda untuk melanjutkan</span>
+                    <span class="lg:hidden">Sistem Absensi Magang</span>
                 </p>
             </div>
 
@@ -51,7 +51,7 @@
                     <label class="block mb-1.5 text-[#1E1E1E] text-[0.875rem] font-medium">
                         Username
                     </label>
-                    <input type="text" name="username" placeholder="Enter your username" required
+                    <input type="text" name="username" placeholder="Masukkan username Anda" required
                         class="w-full px-4 py-3 rounded-xl border border-[#E5E7EB] bg-[#F9FAFB] text-[#1E1E1E] text-[0.9rem] focus:border-[#145EFC] outline-none transition-all">
                 </div>
 
@@ -61,7 +61,7 @@
                         Password
                     </label>
                     <div class="relative">
-                        <input type="password" id="password" name="password" placeholder="Enter your password"
+                        <input type="password" id="password" name="password" placeholder="Masukkan password Anda"
                             autocomplete="off" required
                             class="w-full px-4 py-3 pr-12 rounded-xl border border-[#E5E7EB] bg-[#F9FAFB] text-[#1E1E1E] text-[0.9rem] focus:border-[#145EFC] outline-none transition-all">
                         <button type="button" onclick="togglePassword()"
@@ -89,12 +89,12 @@
                 <!-- Button -->
                 <button type="submit"
                     class="w-full cursor-pointer py-3 rounded-xl text-white bg-[#145EFC] hover:bg-[#0F4FDB] transition-all text-[0.95rem] font-semibold shadow-[0_2px_8px_rgba(20,94,252,0.3)]">
-                    Sign In
+                    Masuk
                 </button>
             </form>
 
             <p class="text-center mt-6 text-gray-400 text-[0.8rem]">
-                &copy; 2026 Internlog. All rights reserved.
+                &copy; 2026 Internlog. Hak cipta dilindungi.
             </p>
         </div>
     </div>

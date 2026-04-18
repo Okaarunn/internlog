@@ -141,7 +141,7 @@
                             </td>
                             <td class="px-6 py-4 text-blue-500 cursor-pointer">
                                 <button type="button" data-modal-target="edit-absence-modal-{{ $absence->id }}"
-                                    data-modal-toggle="edit-absence-modal-{{ $absence->id }}">View</button>
+                                    data-modal-toggle="edit-absence-modal-{{ $absence->id }}">Lihat</button>
                             </td>
                         </tr>
 

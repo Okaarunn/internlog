@@ -16,7 +16,7 @@
         <form class="space-y-4" method="POST" action="{{ route('checkin') }}">
             @csrf
             <div class="text-center mb-6">
-                <p class="text-[#6B7280] text-sm mb-2">Current Time</p>
+                <p class="text-[#6B7280] text-sm mb-2">Waktu Saat Ini</p>
                 <div class="flex items-center justify-center gap-1 font-mono">
                     <span
                         class="inline-block rounded-lg px-3 py-2 bg-[#F0F4FF] text-[#145EFC] text-2xl font-bold min-w-[3.5rem] text-center"
@@ -35,7 +35,7 @@
             <div class="flex gap-3 pt-1">
                 <button type="button" onclick="document.getElementById('checkin-modal').classList.add('hidden')"
                     class="flex-1 py-2.5 rounded-xl border border-[#E5E7EB] text-[#6B7280] text-sm font-medium hover:bg-[#F9FAFB] transition-all">
-                    Cancel
+                    Batal
                 </button>
                 <button type="submit"
                     class="flex-1 py-2.5 rounded-xl bg-[#145EFC] hover:bg-[#0F4FDB] text-white text-sm font-semibold transition-all shadow-[0_2px_8px_rgba(20,94,252,0.25)]">

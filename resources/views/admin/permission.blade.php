@@ -128,7 +128,7 @@
                             </td>
                             <td class="px-6 py-4 text-blue-500 cursor-pointer">
                                 <button type="button" data-modal-target="edit-permission-modal-{{ $permission->id }}"
-                                    data-modal-toggle="edit-permission-modal-{{ $permission->id }}">View</button>
+                                    data-modal-toggle="edit-permission-modal-{{ $permission->id }}">Lihat</button>
                             </td>
                         </tr>
 

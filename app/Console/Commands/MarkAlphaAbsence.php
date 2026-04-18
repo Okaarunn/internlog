@@ -10,7 +10,7 @@ use Illuminate\Console\Command;
 class MarkAlphaAbsence extends Command
 {
     protected $signature = 'absence:mark-alpha';
-    protected $description = 'Mark interns as alpha if they did not check in';
+    protected $description = 'Tandai peserta magang sebagai alpha jika tidak check in';
     public function handle()
     {
         $today = now();

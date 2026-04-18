@@ -4,7 +4,7 @@
         onclick="document.getElementById('leave-modal').classList.add('hidden')"></div>
     <div class="relative bg-white rounded-2xl shadow-xl w-full max-w-md p-6 z-10">
         <div class="flex items-center justify-between mb-5">
-            <h3 class="text-[#1E1E1E] text-[1.05rem] font-semibold">Leave / Permission Request</h3>
+            <h3 class="text-[#1E1E1E] text-[1.05rem] font-semibold">Pengajuan Izin</h3>
             <button onclick="document.getElementById('leave-modal').classList.add('hidden')"
                 class="w-8 h-8 rounded-lg flex items-center justify-center text-[#9CA3AF] hover:bg-[#F3F4F6] hover:text-[#374151] transition-all">
                 <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

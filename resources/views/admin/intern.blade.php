@@ -286,7 +286,7 @@
 
             {{-- footer --}}
             <div class="flex items-center justify-between px-6 py-3 text-sm text-gray-500">
-                <span>{{ $interns->total() }} interns</span>
+                <span>{{ $interns->total() }} peserta</span>
 
                 <div class="flex gap-1">
                     {{-- button next --}}

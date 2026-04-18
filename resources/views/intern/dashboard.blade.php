@@ -2,7 +2,7 @@
 
     {{-- Summary Cards --}}
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <x-summary-card label="Work Days" :value="$summary['work_days']" color="#145EFC" bgColor="#E8F0FE"
+        <x-summary-card label="Hari Kerja" :value="$summary['work_days']" color="#145EFC" bgColor="#E8F0FE"
             icon='<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" /></svg>' />
         <x-summary-card label="Hadir" :value="$summary['hadir']" color="#02A740" bgColor="#E8F5EE"
             icon='<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>' />
@@ -16,7 +16,7 @@
     <div class="rounded-2xl p-6 sm:p-8 bg-white shadow-[0_2px_12px_rgba(0,0,0,0.04)] mb-6">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5 mb-6">
             <div>
-                <h2 class="text-[#1E1E1E] text-[1.1rem] font-semibold">Today's Attendance</h2>
+                <h2 class="text-[#1E1E1E] text-[1.1rem] font-semibold">Absensi Hari Ini</h2>
                 <p class="mt-1 text-[#6B7280] text-sm">{{ now()->translatedFormat('l, d F Y') }}</p>
             </div>
             <div class="flex items-center gap-1 font-mono">
@@ -49,7 +49,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round"
                     d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
             </svg>
-            {{ $todayAbsence ? 'Sudah Check In' : 'Check In' }}
+            {{ $todayAbsence ? 'Sudah Absen' : 'Absen Masuk' }}
             </button>
 
             {{-- Check Out --}}
@@ -71,9 +71,9 @@
             @elseif(in_array($todayAbsence?->status, ['izin', 'sakit']))
                 {{ ucfirst($todayAbsence->status) }}
             @elseif($todayAbsence?->check_out)
-                Sudah Check Out
+                Sudah Absen Keluar
             @else
-                Check Out
+                Absen Keluar
             @endif
             </button>
 
@@ -85,7 +85,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
                 </svg>
-                Leave / Permission
+                Pengajuan Izin
             </button>
 
         </div>
@@ -102,10 +102,10 @@
                         d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
                 </svg>
             </div>
-            <span class="text-[#1E1E1E] text-sm font-semibold">Filter by period</span>
+            <span class="text-[#1E1E1E] text-sm font-semibold">Filter berdasarkan periode</span>
         </div>
         <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-            <x-filter-dropdown name="month" label="Select Month" :value="request('month', now()->month)" :options="collect(range(1, 12))
+            <x-filter-dropdown name="month" label="Pilih Bulan" :value="request('month', now()->month)" :options="collect(range(1, 12))
                 ->map(
                     fn($m) => [
                         'label' => \Carbon\Carbon::create()->month($m)->translatedFormat('F'),
@@ -113,7 +113,7 @@
                     ],
                 )
                 ->toArray()" />
-            <x-filter-dropdown name="year" label="Select Year" :value="request('year', now()->year)" :options="collect([2024, 2025, 2026, 2027, 2028])
+            <x-filter-dropdown name="year" label="Pilih Tahun" :value="request('year', now()->year)" :options="collect([2024, 2025, 2026, 2027, 2028])
                 ->map(fn($y) => ['label' => (string) $y, 'value' => (string) $y])
                 ->toArray()" />
             {{-- Pertahankan tab aktif saat filter --}}
@@ -125,7 +125,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                 </svg>
-                Apply Filter
+                Terapkan Filter
             </button>
         </div>
     </form>
@@ -160,7 +160,7 @@
 
         {{-- Card Header --}}
         <div class="px-6 py-5 border-b border-[#F0F0F0]">
-            <h2 class="text-[#1E1E1E] text-[1.1rem] font-semibold">Attendance Recap</h2>
+            <h2 class="text-[#1E1E1E] text-[1.1rem] font-semibold">Rekap Absensi</h2>
             <p class="mt-0.5 text-[#6B7280] text-[0.8rem]">
                 {{ now()->translatedFormat('F Y') }}
             </p>
@@ -171,13 +171,13 @@
             <li class="me-2">
                 <a href="?tab=absence&month={{ request('month', now()->month) }}&year={{ request('year', now()->year) }}"
                     class="inline-block px-4 py-2.5 transition-all {{ $activeTab === 'absence' ? 'text-[#145EFC] border-b-2 border-[#145EFC] font-semibold' : 'text-[#6B7280] hover:text-[#1E1E1E]' }}">
-                    Absence
+                    Absensi
                 </a>
             </li>
             <li>
                 <a href="?tab=permission&month={{ request('month', now()->month) }}&year={{ request('year', now()->year) }}"
                     class="inline-block px-4 py-2.5 transition-all {{ $activeTab === 'permission' ? 'text-[#145EFC] border-b-2 border-[#145EFC] font-semibold' : 'text-[#6B7280] hover:text-[#1E1E1E]' }}">
-                    Permission
+                    Izin
                 </a>
             </li>
         </ul>
@@ -191,19 +191,19 @@
                     <thead class="bg-[#FAFBFC]">
                         <tr>
                             <th class="px-6 py-3.5 text-left text-[#6B7280] text-[0.78rem] font-semibold uppercase">
-                                Date</th>
+                                Tanggal</th>
                             <th class="px-6 py-3.5 text-left text-[#6B7280] text-[0.78rem] font-semibold uppercase">
                                 Status</th>
                             <th class="px-6 py-3.5 text-left text-[#6B7280] text-[0.78rem] font-semibold uppercase">
-                                Check In</th>
+                                Masuk</th>
                             <th class="px-6 py-3.5 text-left text-[#6B7280] text-[0.78rem] font-semibold uppercase">
-                                Check Out</th>
+                                Keluar</th>
                             <th class="px-6 py-3.5 text-left text-[#6B7280] text-[0.78rem] font-semibold uppercase">
-                                Duration</th>
+                                Durasi</th>
                             <th class="px-6 py-3.5 text-left text-[#6B7280] text-[0.78rem] font-semibold uppercase">
-                                Description</th>
+                                Keterangan</th>
                             <th class="px-6 py-3.5 text-left text-[#6B7280] text-[0.78rem] font-semibold uppercase">
-                                Validation</th>
+                                Validasi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -282,17 +282,17 @@
                         </div>
                         <div class="grid grid-cols-3 gap-2">
                             <div>
-                                <p class="text-[#9CA3AF] text-[0.7rem]">Check In</p>
+                                <p class="text-[#9CA3AF] text-[0.7rem]">Masuk</p>
                                 <p class="text-[#374151] text-[0.85rem] font-medium">{{ $absence->check_in ?? '-' }}
                                 </p>
                             </div>
                             <div>
-                                <p class="text-[#9CA3AF] text-[0.7rem]">Check Out</p>
+                                <p class="text-[#9CA3AF] text-[0.7rem]">Keluar</p>
                                 <p class="text-[#374151] text-[0.85rem] font-medium">{{ $absence->check_out ?? '-' }}
                                 </p>
                             </div>
                             <div>
-                                <p class="text-[#9CA3AF] text-[0.7rem]">Duration</p>
+                                <p class="text-[#9CA3AF] text-[0.7rem]">Durasi</p>
                                 <p class="text-[#374151] text-[0.85rem] font-medium">
                                     @if ($absence->duration)
                                         {{ intdiv($absence->duration, 60) }}j {{ $absence->duration % 60 }}m
@@ -321,7 +321,7 @@
 
             {{-- Pagination Absence --}}
             <div class="px-6 py-4 flex items-center justify-between border-t border-[#F0F0F0]">
-                <p class="text-[#9CA3AF] text-[0.8rem]">Page {{ $absences->currentPage() }} of
+                <p class="text-[#9CA3AF] text-[0.8rem]">Halaman {{ $absences->currentPage() }} dari
                     {{ $absences->lastPage() }}</p>
                 <div class="flex gap-2">
                     <a href="{{ $absences->previousPageUrl() ?? '#' }}"
@@ -352,13 +352,14 @@
                     <thead class="bg-[#FAFBFC]">
                         <tr>
                             <th class="px-6 py-3.5 text-left text-[#6B7280] text-[0.78rem] font-semibold uppercase">
-                                Start Date</th>
-                            <th class="px-6 py-3.5 text-left text-[#6B7280] text-[0.78rem] font-semibold uppercase">End
-                                Date</th>
+                                Tanggal Mulai</th>
                             <th class="px-6 py-3.5 text-left text-[#6B7280] text-[0.78rem] font-semibold uppercase">
-                                Type</th>
+                                Tanggal
+                                Selesai</th>
                             <th class="px-6 py-3.5 text-left text-[#6B7280] text-[0.78rem] font-semibold uppercase">
-                                Reason</th>
+                                Jenis</th>
+                            <th class="px-6 py-3.5 text-left text-[#6B7280] text-[0.78rem] font-semibold uppercase">
+                                Alasan</th>
                             <th class="px-6 py-3.5 text-left text-[#6B7280] text-[0.78rem] font-semibold uppercase">
                                 Status</th>
                         </tr>
@@ -401,7 +402,7 @@
                         @empty
                             <tr>
                                 <td colspan="5" class="px-6 py-12 text-center text-[#9CA3AF] text-sm">
-                                    Belum ada data permission.
+                                    Belum ada data izin.
                                 </td>
                             </tr>
                         @endforelse
@@ -449,13 +450,13 @@
                         </div>
                     </div>
                 @empty
-                    <div class="px-5 py-12 text-center text-[#9CA3AF] text-sm">Belum ada data permission.</div>
+                    <div class="px-5 py-12 text-center text-[#9CA3AF] text-sm">Belum ada data izin.</div>
                 @endforelse
             </div>
 
             {{-- Pagination Permission --}}
             <div class="px-6 py-4 flex items-center justify-between border-t border-[#F0F0F0]">
-                <p class="text-[#9CA3AF] text-[0.8rem]">Page {{ $permissions->currentPage() }} of
+                <p class="text-[#9CA3AF] text-[0.8rem]">Halaman {{ $permissions->currentPage() }} dari
                     {{ $permissions->lastPage() }}</p>
                 <div class="flex gap-2">
                     <a href="{{ $permissions->previousPageUrl() ?? '#' }}"
@@ -485,7 +486,7 @@
     <x-modal-checkout />
 
     <footer class="py-6 text-center text-[#9CA3AF] text-[0.78rem]">
-        &copy; {{ date('Y') }} Internlog. All rights reserved.
+        &copy; {{ date('Y') }} Internlog. Hak cipta dilindungi.
     </footer>
 
     <script>

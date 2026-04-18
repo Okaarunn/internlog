@@ -16,7 +16,7 @@
         <form class="space-y-4" method="POST" action="{{ route('checkout') }}">
             @csrf
             <div class="text-center mb-6">
-                <p class="text-[#6B7280] text-sm mb-2">Current Time</p>
+                <p class="text-[#6B7280] text-sm mb-2">Waktu Saat Ini</p>
                 <div class="flex items-center justify-center gap-1 font-mono">
                     <span
                         class="inline-block rounded-lg px-3 py-2 bg-[#F0F4FF] text-[#02A740] text-2xl font-bold min-w-[3.5rem] text-center"
@@ -33,14 +33,14 @@
             </div>
 
             <div>
-                <label class="block text-[#374151] text-sm font-medium mb-1.5">Notes</label>
-                <textarea name="notes_out" rows="2" placeholder="Add any notes..."
+                <label class="block text-[#374151] text-sm font-medium mb-1.5">Catatan</label>
+                <textarea name="notes_out" rows="2" placeholder="Tambahkan catatan..."
                     class="w-full px-4 py-2.5 rounded-xl border border-[#E5E7EB] text-[#1E1E1E] text-sm resize-none focus:outline-none focus:border-[#02A740] focus:ring-2 focus:ring-[#02A740]/10 transition-all"></textarea>
             </div>
             <div class="flex gap-3 pt-1">
                 <button type="button" onclick="document.getElementById('checkout-modal').classList.add('hidden')"
                     class="flex-1 py-2.5 rounded-xl border border-[#E5E7EB] text-[#6B7280] text-sm font-medium hover:bg-[#F9FAFB] transition-all">
-                    Cancel
+                    Batal
                 </button>
                 <button type="submit"
                     class="flex-1 py-2.5 rounded-xl bg-[#02A740] hover:bg-[#028A35] text-white text-sm font-semibold transition-all shadow-[0_2px_8px_rgba(2,167,64,0.25)]">
