@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\admin\AbsenceManagementController;
+use App\Http\Controllers\Admin\AbsenceManagementController;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\DashboardAdminController;
 use App\Http\Controllers\Admin\DepartmentController;
@@ -9,7 +9,7 @@ use App\Http\Controllers\Intern\AuthController as InternAuthController;
 use App\Http\Controllers\Intern\DashboardController;
 use App\Http\Controllers\Intern\PermissionController;
 use App\Http\Controllers\Admin\InternController;
-use App\Http\Controllers\admin\PermissionManagementController;
+use App\Http\Controllers\Admin\PermissionManagementController;
 use Illuminate\Support\Facades\Route;
 
 use Illuminate\Http\Request;

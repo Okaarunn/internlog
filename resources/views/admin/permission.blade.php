@@ -78,8 +78,7 @@
                 </thead>
 
                 <tbody class="text-gray-700 divide-y">
-
-                    @foreach ($permissions as $permission)
+                    @forelse ($permissions as $permission)
                         {{-- label --}}
                         @php
                             $typeClass = match ($permission->type) {
@@ -120,7 +119,19 @@
                             <td class="px-6 py-4">
                                 <span
                                     class="px-3 py-1 text-xs capitalize rounded-full font-medium {{ $statusClass }}">
-                                    {{ $permission->status }}
+                                    @switch($permission->status)
+                                        @case('pending')
+                                            Menunggu
+                                            @break
+                                        @case('approved')
+                                            Disetujui
+                                            @break
+                                        @case('rejected')
+                                            Ditolak
+                                            @break
+                                        @default
+                                            {{ ucfirst($permission->status) }}
+                                    @endswitch
                                 </span>
                             </td>
                             <td class="px-6 py-4">
@@ -144,7 +155,19 @@
                                         <p>{{ $permission->intern->name }}</p>
                                         <span
                                             class="px-3 py-1 text-xs capitalize rounded-full font-medium {{ $statusClass }}">
-                                            {{ $permission->status }}
+                                            @switch($permission->status)
+                                                @case('pending')
+                                                    Menunggu
+                                                    @break
+                                                @case('approved')
+                                                    Disetujui
+                                                    @break
+                                                @case('rejected')
+                                                    Ditolak
+                                                    @break
+                                                @default
+                                                    {{ ucfirst($permission->status) }}
+                                            @endswitch
                                         </span>
                                     </div>
 
@@ -250,11 +273,58 @@
                             </x-slot:footer>
 
                         </x-edit-modal>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="8" class="px-6 py-12 text-center text-gray-500">
+                                <div class="flex flex-col items-center">
+                                    <svg class="w-12 h-12 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                    <p class="text-sm font-medium">Belum ada data perizinan</p>
+                                    <p class="text-xs text-gray-400 mt-1">Data akan muncul ketika peserta mengajukan izin</p>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
 
             {{-- footer --}}
+            <div class="flex items-center justify-between px-6 py-3 text-sm text-gray-500">
+                <span>Menampilkan {{ $permissions->firstItem() ?? 0 }}-{{ $permissions->lastItem() ?? 0 }} dari
+                    {{ $permissions->total() }} data perizinan</span>
+
+                <div class="flex gap-1">
+                    {{-- Button Previous --}}
+                    @if ($permissions->onFirstPage())
+                        <span
+                            class="px-3 py-1 rounded-md border bg-gray-50 text-gray-300 cursor-not-allowed">&lt;</span>
+                    @else
+                        <a href="{{ $permissions->previousPageUrl() }}"
+                            class="px-3 py-1 rounded-md border bg-white hover:bg-gray-50 transition-colors">&lt;</a>
+                    @endif
+
+                    {{-- Number Page --}}
+                    @foreach ($permissions->getUrlRange(max(1, $permissions->currentPage() - 1), min($permissions->lastPage(), $permissions->currentPage() + 1)) as $page => $url)
+                        @if ($page == $permissions->currentPage())
+                            <span
+                                class="px-3 py-1 rounded-md bg-blue-600 text-white font-medium">{{ $page }}</span>
+                        @else
+                            <a href="{{ $url }}"
+                                class="px-3 py-1 rounded-md border bg-white hover:bg-gray-50 transition-colors">{{ $page }}</a>
+                        @endif
+                    @endforeach
+
+                    {{-- Button Next --}}
+                    @if ($permissions->hasMorePages())
+                        <a href="{{ $permissions->nextPageUrl() }}"
+                            class="px-3 py-1 rounded-md border bg-white hover:bg-gray-50 transition-colors">&gt;</a>
+                    @else
+                        <span
+                            class="px-3 py-1 rounded-md border bg-gray-50 text-gray-300 cursor-not-allowed">&gt;</span>
+                    @endif
+                </div>
+            </div>
 
 
         </div>

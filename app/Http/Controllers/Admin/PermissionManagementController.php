@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Absence;
 use App\Models\PermissionRequest;
 use Illuminate\Http\Request;
-
-use function Symfony\Component\Clock\now;
 
 class PermissionManagementController extends Controller
 {
@@ -27,7 +25,7 @@ class PermissionManagementController extends Controller
             $query->where('status', $request->status);
         }
         
-        $permissions = $query->orderBy('created_at', 'desc')->get();
+        $permissions = $query->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
         
         return view('admin.permission', compact('permissions'));
     }

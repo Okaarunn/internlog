@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Absence;
@@ -51,6 +51,7 @@ class AbsenceManagementController extends Controller
         // validation request
         $request->validate([
             'status' => 'required|in:hadir,terlambat,izin,sakit,alpha',
+            'validation_status' => 'required|in:menunggu,disetujui,ditolak',
         ]);
 
         // get absence id
@@ -59,6 +60,7 @@ class AbsenceManagementController extends Controller
         // update abence
         $absence->update([
             'status' => $request->status,
+            'validation_status' => $request->validation_status,
             'admin_id' => auth('admins')->user()->id
         ]);
 

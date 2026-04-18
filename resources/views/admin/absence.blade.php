@@ -210,6 +210,25 @@
 
                                     </select>
                                 </div>
+
+                                {{-- validation status --}}
+                                <div class="mt-4">
+                                    <label for="validation_status-{{ $absence->id }}"
+                                        class="block mb-1.5 text-2xs uppercase tracking-wider font-bold text-gray-500">
+                                        validasi status kehadiran
+                                    </label>
+                                    <select id="validation_status-{{ $absence->id }}" name="validation_status"
+                                        class="w-full px-3 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all cursor-pointer shadow-sm">
+
+                                        @foreach (['menunggu', 'disetujui', 'ditolak'] as $validation_status)
+                                            <option value="{{ $validation_status }}"
+                                                {{ $absence->validation_status == $validation_status ? 'selected' : '' }}>
+                                                {{ ucfirst($validation_status) }}
+                                            </option>
+                                        @endforeach
+
+                                    </select>
+                                </div>
                             </x-slot:body>
                         </x-edit-modal>
                     @endforeach
