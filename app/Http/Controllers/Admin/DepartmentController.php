@@ -35,7 +35,7 @@ class DepartmentController extends Controller
         noty()
             ->theme('sunset')
             ->closeWith(['click', 'button'])
-            ->success('Data berhasil diupdate.');
+            ->success('Data berhasil ditambahkan.');
 
         return redirect()->back();
     }
@@ -87,7 +87,7 @@ class DepartmentController extends Controller
             return redirect()->back();
         }
 
-        // if not, delete 
+        // if not, delete
         $department->delete();
 
         noty()
