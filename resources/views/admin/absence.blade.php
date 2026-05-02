@@ -115,7 +115,7 @@
                             <td class="px-6 py-4 text-gray-500">
                                 {{ $absence->intern->department->name }}
                             </td>
-                            <td class="px-6 py-4">{{ $absence->check_in }}</td>
+                            <td class="px-6 py-4">{{ $absence->check_in ?? '-' }}</td>
                             <td class="px-6 py-4">{{ $absence->check_out ?? '-' }}</td>
                             <td class="px-6 py-4">
                                 @if ($absence->duration)
@@ -166,7 +166,7 @@
                                                 class="block mb-1.5 text-xs font-medium text-gray-400">
                                                 Jam Masuk
                                             </label>
-                                            <p>{{ $absence->check_in }}</p>
+                                            <p>{{ $absence->check_in ?? '-' }}</p>
                                         </div>
                                     </div>
 

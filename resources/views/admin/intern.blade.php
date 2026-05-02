@@ -274,9 +274,8 @@
                         <x-delete-modal id="delete-intern-modal-{{ $intern->id }}"
                             title="Hapus akun {{ $intern->name }}?" :action="route('admin.intern.destroy', $intern->id)">
                             <x-slot:body>
-                                <p>Apakah Anda yakin ingin menghapus departemen
+                                <p>Apakah Anda yakin ingin menghapus data peserta
                                     <strong>{{ $intern->name }}</strong>?
-                                    Pastikan tidak ada peserta magang yang terdaftar.
                                 </p>
                             </x-slot:body>
                         </x-delete-modal>

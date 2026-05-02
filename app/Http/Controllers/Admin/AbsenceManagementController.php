@@ -42,8 +42,6 @@ class AbsenceManagementController extends Controller
         return view('admin.absence', compact('departments', 'absences'));
     }
 
-
-
     // update absence intern
     public function update(Request $request, $id)
     {

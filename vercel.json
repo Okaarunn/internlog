@@ -18,6 +18,10 @@
             "dest": "/public/build/$1"
         },
         {
+            "src": "/logo.png",
+            "dest": "/public/logo.png"
+        },
+        {
             "src": "/img/(.*)",
             "dest": "/public/img/"
         },
