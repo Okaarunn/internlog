@@ -17,6 +17,7 @@ class Absence extends Model
     protected $fillable = [
         'intern_id',
         'admin_id',
+        'permission_request_id',
         'date',
         'check_in',
         'check_out',
@@ -38,5 +39,10 @@ class Absence extends Model
     public function admin(): BelongsTo
     {
         return $this->belongsTo(Admin::class);
+    }
+
+    public function permissionRequest(): BelongsTo
+    {
+        return $this->belongsTo(PermissionRequest::class);
     }
 }

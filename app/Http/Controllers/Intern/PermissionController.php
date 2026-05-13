@@ -31,7 +31,7 @@ class PermissionController extends Controller
         }
 
         // Buat permission request
-        PermissionRequest::create([
+        $permissionRequest = PermissionRequest::create([
             'intern_id'  => $internId,
             'start_date' => $validated['start_date'],
             'end_date'   => $validated['end_date'],
@@ -48,11 +48,12 @@ class PermissionController extends Controller
             if ($date->isSunday()) continue;
 
             Absence::create([
-                'intern_id'         => $internId,
-                'date'              => $date->format('Y-m-d'),
-                'status'            => $validated['type'],
-                'validation_status' => 'menunggu',
-                'notes_out'         => $validated['description'],
+                'intern_id'             => $internId,
+                'permission_request_id' => $permissionRequest->id,
+                'date'                  => $date->format('Y-m-d'),
+                'status'                => $validated['type'],
+                'validation_status'     => 'menunggu',
+                'notes_out'             => $validated['description'],
             ]);
         }
 

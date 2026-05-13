@@ -44,6 +44,7 @@ class DashboardAdminController extends Controller
             'alpha' => $alphaAbsences
         ];
 
+
         return view('admin.dashboard', compact('summary'));
     }
 }

@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy"
+    {{-- <meta http-equiv="Content-Security-Policy"
         content="upgrade-insecure-requests;
     default-src 'self' https:;
     script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net;
     style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net;
     img-src 'self' https: data:;
-    font-src 'self' https: data:;">
+    font-src 'self' https: data:;"> --}}
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="icon" type="image/png" href="{{ asset('logo.png') }}">
     <link rel="shortcut icon" href="{{ asset('logo.png') }}">

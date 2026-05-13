@@ -15,6 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->uuid('intern_id');
             $table->uuid('admin_id')->nullable();
+            $table->uuid('permission_request_id')->nullable();
             $table->date('date')->nullable();
 
             $table->time('check_in')->nullable();
@@ -28,6 +29,7 @@ return new class extends Migration
 
             $table->foreign('intern_id')->references('id')->on('interns')->cascadeOnDelete();
             $table->foreign('admin_id')->references('id')->on('admins')->nullOnDelete();
+            $table->foreign('permission_request_id')->references('id')->on('permission_requests')->nullOnDelete();
 
             $table->timestamps();
             $table->softDeletes();

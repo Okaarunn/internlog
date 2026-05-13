@@ -48,14 +48,17 @@ class PermissionManagementController extends Controller
             'approved_at' => now()
         ]);
 
-        // update absence validation_status
-        $validationStatus = $request->status === 'approved' ? 'disetujui' : 'ditolak';
-
-        $updated_by = auth('admins')->user()->id;
-
-        Absence::where('intern_id', $permission->intern_id)
-            ->whereBetween('date', [$permission->start_date, $permission->end_date])
-            ->update(['validation_status' => $validationStatus, 'admin_id' => $updated_by]);
+        if ($request->status === 'rejected') {
+            // jika ditolak: hapus semua absence records dari permission ini
+            Absence::where('permission_request_id', $permission->id)->delete();
+        } else if ($request->status === 'approved') {
+            // jika diterima: update validation_status semua absence terkait
+            Absence::where('permission_request_id', $permission->id)
+                ->update([
+                    'validation_status' => 'disetujui',
+                    'admin_id' => auth('admins')->user()->id
+                ]);
+        }
 
         noty()
             ->theme('sunset')

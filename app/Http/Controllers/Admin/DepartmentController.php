@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Department;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+
 class DepartmentController extends Controller
 {
     public function index()
@@ -19,57 +22,60 @@ class DepartmentController extends Controller
 
     public function store(Request $request)
     {
-        // validation
+        // check name is exist
+        if (Department::where('name', $request->name)->exists()) {
+            noty()->theme('sunset')->error('Gagal! Nama departemen sudah terdaftar.');
+            return redirect()->back()->withInput();
+        }
+
         $request->validate([
-            'name' => 'required|string|max:100',
+            'name' => 'required',
             'start_time' => 'required|date_format:H:i',
             'end_time' => 'required|date_format:H:i|after:start_time',
         ]);
 
-        Department::create([
-            'name' => $request->name,
-            'start_time' => $request->start_time,
-            'end_time' => $request->end_time,
-        ]);
+        Department::create($request->all());
 
-        noty()
-            ->theme('sunset')
-            ->closeWith(['click', 'button'])
-            ->success('Data berhasil ditambahkan.');
-
+        noty()->theme('sunset')->success('Data berhasil ditambahkan.');
         return redirect()->back();
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
-
-        // get data id
         $department = Department::findOrFail($id);
 
-        // validation
-        $request->validate([
-            'name' => 'required|string|max:100',
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:100', Rule::unique('departments')->ignore($id)],
             'start_time' => 'required|date_format:H:i',
             'end_time' => 'required|date_format:H:i|after:start_time',
         ]);
 
-        // update data
+        if ($validator->fails()) {
+            if ($validator->errors()->has('name')) {
+                noty()
+                    ->theme('sunset')
+                    ->error('Gagal update! Nama departemen sudah digunakan oleh data lain.');
+            }
+
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
         $department->update([
             'name' => $request->name,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
         ]);
 
-        // notification
         noty()
             ->theme('sunset')
-            ->closeWith(['click', 'button'])
             ->success('Data berhasil diupdate.');
 
         return redirect()->back();
     }
 
-    public function destroy($id)
+    public function destroy(int $id)
     {
 
         // get department with intern qty

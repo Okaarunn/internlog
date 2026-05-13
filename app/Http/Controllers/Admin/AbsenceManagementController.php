@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Absence;
 use App\Models\Department;
+use App\Models\PermissionRequest;
 use Illuminate\Http\Request;
 
 use function Flasher\Noty\Prime\noty;
@@ -20,7 +21,13 @@ class AbsenceManagementController extends Controller
         $filterDept = $request->input('department_id');
         $filterDate = $request->input('date');
 
-        $absences = Absence::with(['intern.department', 'admin'])
+        $absences = Absence::with(['intern.department', 'admin', 'permissionRequest'])
+            ->where(function($query) {
+                $query->whereNull('permission_request_id') // absence manual
+                      ->orWhereHas('permissionRequest', function($q) {
+                          $q->whereIn('status', ['approved', 'rejected']); // permission sudah diproses
+                      });
+            })
             ->when($search, function ($query, $search) {
                 return $query->whereHas('intern', function ($q) use ($search) {
                     $q->where('name', 'like', "%{$search}%")
@@ -55,7 +62,7 @@ class AbsenceManagementController extends Controller
         // get absence id
         $absence = Absence::findOrFail($id);
 
-        // update abence
+        // update absence
         $absence->update([
             'status' => $request->status,
             'validation_status' => $request->validation_status,

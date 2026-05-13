@@ -1,6 +1,7 @@
 <x-admin-layout>
     <div class="p-4 sm:ml-64 mt-13">
 
+
         {{-- header --}}
         <div class="my-6">
             <h1 class="text-xl font-semibold text-gray-800">Dashboard</h1>

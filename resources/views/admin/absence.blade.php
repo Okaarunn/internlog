@@ -1,4 +1,7 @@
 <x-admin-layout>
+
+
+
     <div class="p-6 sm:ml-64 bg-gray-50 mt-16">
 
         {{-- header --}}
@@ -142,10 +145,22 @@
                             <td class="px-6 py-4">
                                 {{ $absence->admin->name ?? '-' }}
                             </td>
+
+
                             <td class="px-6 py-4 text-blue-500 cursor-pointer">
-                                <button type="button" data-modal-target="edit-absence-modal-{{ $absence->id }}"
-                                    data-modal-toggle="edit-absence-modal-{{ $absence->id }}">Lihat</button>
+                                @if ($absence->validation_status === 'menunggu')
+                                    <button type="button" data-modal-target="edit-absence-modal-{{ $absence->id }}"
+                                        data-modal-toggle="edit-absence-modal-{{ $absence->id }}"
+                                        class="text-blue-500">Edit</button>
+                                @else
+                                    <button type="button" data-modal-target="view-absence-modal-{{ $absence->id }}"
+                                        data-modal-toggle="view-absence-modal-{{ $absence->id }}"
+                                        class="text-gray-500">Lihat</button>
+                                @endif
                             </td>
+
+
+
                         </tr>
 
                         <x-edit-modal id="edit-absence-modal-{{ $absence->id }}" title="Detail Kehadiran"
