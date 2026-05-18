@@ -14,6 +14,10 @@
     "buildCommand": "npm run build",
     "routes": [
         {
+            "src": "/vendor/(.*)",
+            "dest": "/public/vendor/$1"
+        },
+        {
             "src": "/build/(.*)",
             "dest": "/public/build/$1"
         },
