@@ -40,7 +40,7 @@ class DepartmentController extends Controller
         return redirect()->back();
     }
 
-    public function update(Request $request, int $id)
+    public function update(Request $request, $id)
     {
         $department = Department::findOrFail($id);
 
@@ -75,7 +75,7 @@ class DepartmentController extends Controller
         return redirect()->back();
     }
 
-    public function destroy(int $id)
+    public function destroy($id)
     {
 
         // get department with intern qty

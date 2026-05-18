@@ -30,21 +30,24 @@
             </div>
 
             @php
-                $name = Auth::user()->name;
-                $initials = collect(explode(' ', $name))
-                    ->map(fn($word) => strtoupper(substr($word, 0, 1)))
-                    ->implode('');
+                $user = Auth::guard('admins')->user();
+                $name = $user ? $user->name : 'Guest';
+                $initials = $user
+                    ? collect(explode(' ', $name))->map(fn($word) => strtoupper(substr($word, 0, 1)))->implode('')
+                    : 'G';
             @endphp
             <div class="flex items-center justify-between text-end font-medium gap-5">
-                <div>
-                    <p>{{ Auth::user()->name }}</p>
-                    <p class="text-gray-400 font-light">{{ Auth::user()->username }}</p>
-                </div>
+                @if ($user)
+                    <div>
+                        <p>{{ $user->name }}</p>
+                        <p class="text-gray-400 font-light">{{ $user->username }}</p>
+                    </div>
 
-                <div
-                    class="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold">
-                    {{ $initials }}
-                </div>
+                    <div
+                        class="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold">
+                        {{ $initials }}
+                    </div>
+                @endif
             </div>
         </div>
     </div>

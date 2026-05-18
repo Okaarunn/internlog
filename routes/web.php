@@ -64,7 +64,7 @@ Route::middleware('guest')->group(function () {
 
 
 // routes for auth admin
-Route::middleware(['auth:admins', 'prevent.back'])->group(function () {
+Route::middleware(['admin.auth', 'prevent.back'])->group(function () {
 
     // dashboard
     Route::get('/admin/dashboard', [DashboardAdminController::class, 'index'])
