@@ -64,7 +64,7 @@ Route::middleware('guest')->group(function () {
 
 
 // routes for auth admin
-Route::middleware('auth:admins')->group(function () {
+Route::middleware(['auth:admins', 'prevent.back'])->group(function () {
 
     // dashboard
     Route::get('/admin/dashboard', [DashboardAdminController::class, 'index'])
@@ -89,8 +89,6 @@ Route::middleware('auth:admins')->group(function () {
     Route::post('/admin/intern', [InternController::class, 'store'])->name('admin.intern.store');
     Route::put('/admin/intern/{id}', [InternController::class, 'update'])->name('admin.intern.update');
     Route::delete('/admin/intern/{id}', [InternController::class, 'destroy'])->name('admin.intern.destroy');
-
-
 
     // logout
     Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');

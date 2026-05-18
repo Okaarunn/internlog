@@ -40,7 +40,8 @@
             <div>
                 <label class="block text-[#374151] text-sm font-medium mb-1.5">Alasan</label>
                 <textarea name="description" rows="3" placeholder="Deskripsikan alasan kamu..."
-                    class="w-full px-4 py-2.5 rounded-xl border border-[#E5E7EB] text-[#1E1E1E] text-sm resize-none focus:outline-none focus:border-[#145EFC] focus:ring-2 focus:ring-[#145EFC]/10 transition-all"></textarea>
+                    class="w-full px-4 py-2.5 rounded-xl border border-[#E5E7EB] text-[#1E1E1E] text-sm resize-none focus:outline-none focus:border-[#145EFC] focus:ring-2 focus:ring-[#145EFC]/10 transition-all"
+                    required></textarea>
             </div>
 
             <div class="flex gap-3 pt-1">

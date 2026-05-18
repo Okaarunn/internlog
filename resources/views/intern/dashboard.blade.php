@@ -34,39 +34,69 @@
             </div>
         </div>
 
+        @if ($internshipEnded)
+            <div class="bg-[#FEF3C7] border border-[#F59E0B] rounded-xl p-4 mb-4">
+                <div class="flex items-center gap-2">
+                    <svg class="w-5 h-5 text-[#D97706]" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                    </svg>
+                    <span class="text-[#D97706] text-sm font-semibold">Masa magang Anda telah berakhir</span>
+                </div>
+                <p class="text-[#92400E] text-sm mt-1">Anda tidak dapat melakukan absensi lagi karena masa magang sudah
+                    selesai pada
+                    {{ \Carbon\Carbon::parse(Auth::guard('interns')->user()->end_date)->translatedFormat('d F Y') }}.
+                </p>
+            </div>
+        @endif
+
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
 
             {{-- Check In --}}
-            @if ($todayAbsence)
+            @if ($internshipEnded)
                 <button type="button" disabled
-                    class="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl text-white text-[0.9rem] font-semibold bg-[#145EFC] opacity-40 cursor-not-allowed">
-                @else
-                    <button type="button" onclick="document.getElementById('checkin-modal').classList.remove('hidden')"
-                        class="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl text-white text-[0.9rem] font-semibold bg-[#145EFC] hover:bg-[#0F4FDB] shadow-[0_2px_8px_rgba(20,94,252,0.25)] transition-all cursor-pointer">
+                    class="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl text-white text-[0.9rem] font-semibold bg-[#6B7280] opacity-40 cursor-not-allowed">
+                @elseif ($todayAbsence)
+                    <button type="button" disabled
+                        class="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl text-white text-[0.9rem] font-semibold bg-[#145EFC] opacity-40 cursor-not-allowed">
+                    @else
+                        <button type="button"
+                            onclick="document.getElementById('checkin-modal').classList.remove('hidden')"
+                            class="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl text-white text-[0.9rem] font-semibold bg-[#145EFC] hover:bg-[#0F4FDB] shadow-[0_2px_8px_rgba(20,94,252,0.25)] transition-all cursor-pointer">
             @endif
             <svg class="w-[18px] h-[18px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                 stroke-width="1.5" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round"
                     d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
             </svg>
-            {{ $todayAbsence ? 'Sudah Absen' : 'Absen Masuk' }}
+            @if ($internshipEnded)
+                Magang Selesai
+            @else
+                {{ $todayAbsence ? 'Sudah Absen' : 'Absen Masuk' }}
+            @endif
             </button>
 
             {{-- Check Out --}}
-            @if (!$todayAbsence || $todayAbsence->check_out || in_array($todayAbsence->status, ['alpha', 'izin', 'sakit']))
+            @if ($internshipEnded)
                 <button type="button" disabled
-                    class="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl text-white text-[0.9rem] font-semibold bg-[#02A740] opacity-40 cursor-not-allowed">
-                @else
-                    <button type="button"
-                        onclick="document.getElementById('checkout-modal').classList.remove('hidden')"
-                        class="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl text-white text-[0.9rem] font-semibold bg-[#02A740] hover:bg-[#028A35] shadow-[0_2px_8px_rgba(2,167,64,0.25)] transition-all cursor-pointer">
+                    class="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl text-white text-[0.9rem] font-semibold bg-[#6B7280] opacity-40 cursor-not-allowed">
+                @elseif (!$todayAbsence || $todayAbsence->check_out || in_array($todayAbsence->status, ['alpha', 'izin', 'sakit']))
+                    <button type="button" disabled
+                        class="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl text-white text-[0.9rem] font-semibold bg-[#02A740] opacity-40 cursor-not-allowed">
+                    @else
+                        <button type="button"
+                            onclick="document.getElementById('checkout-modal').classList.remove('hidden')"
+                            class="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl text-white text-[0.9rem] font-semibold bg-[#02A740] hover:bg-[#028A35] shadow-[0_2px_8px_rgba(2,167,64,0.25)] transition-all cursor-pointer">
             @endif
             <svg class="w-[18px] h-[18px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                 stroke-width="1.5" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round"
                     d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25" />
             </svg>
-            @if ($todayAbsence?->status === 'alpha')
+            @if ($internshipEnded)
+                Magang Selesai
+            @elseif($todayAbsence?->status === 'alpha')
                 Alpha
             @elseif(in_array($todayAbsence?->status, ['izin', 'sakit']))
                 {{ ucfirst($todayAbsence->status) }}
@@ -78,14 +108,23 @@
             </button>
 
             {{-- Leave / Permission --}}
-            <button type="button" onclick="document.getElementById('leave-modal').classList.remove('hidden')"
-                class="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl text-white text-[0.9rem] font-semibold bg-[#F54900] hover:bg-[#D94000] shadow-[0_2px_8px_rgba(245,73,0,0.25)] transition-all cursor-pointer">
-                <svg class="w-[18px] h-[18px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                    stroke-width="1.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                </svg>
+            @if ($internshipEnded)
+                <button type="button" disabled
+                    class="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl text-white text-[0.9rem] font-semibold bg-[#6B7280] opacity-40 cursor-not-allowed">
+                @else
+                    <button type="button" onclick="document.getElementById('leave-modal').classList.remove('hidden')"
+                        class="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl text-white text-[0.9rem] font-semibold bg-[#F54900] hover:bg-[#D94000] shadow-[0_2px_8px_rgba(245,73,0,0.25)] transition-all cursor-pointer">
+            @endif
+            <svg class="w-[18px] h-[18px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+            </svg>
+            @if ($internshipEnded)
+                Magang Selesai
+            @else
                 Pengajuan Izin
+            @endif
             </button>
 
         </div>
@@ -182,7 +221,7 @@
             </li>
         </ul>
 
-        {{-- ===== ABSENCE TAB ===== --}}
+        {{-- absence tab --}}
         <div class="{{ $activeTab === 'absence' ? 'block' : 'hidden' }}">
 
             {{-- Desktop --}}
@@ -343,7 +382,7 @@
 
         </div>
 
-        {{-- ===== PERMISSION TAB ===== --}}
+        {{-- permission tab --}}
         <div class="{{ $activeTab === 'permission' ? 'block' : 'hidden' }}">
 
             {{-- Desktop --}}

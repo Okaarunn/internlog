@@ -15,6 +15,12 @@ class AbsenceController extends Controller
     public function checkin(Request $request)
     {
         $internId = Auth::guard('interns')->id();
+        $intern = Auth::guard('interns')->user();
+
+        // Check if internship has ended
+        if (today()->greaterThan(Carbon::parse($intern->end_date))) {
+            return redirect()->back()->with('error', 'Masa magang Anda sudah berakhir');
+        }
 
         $alreadyCheckin = Absence::where('intern_id', $internId)
             ->whereDate('date', today())
@@ -25,7 +31,6 @@ class AbsenceController extends Controller
         }
 
         // get departement
-        $intern = Auth::guard('interns')->user();
         $startTime = Carbon::parse($intern->department->start_time);
         $now = now();
 
@@ -62,6 +67,16 @@ class AbsenceController extends Controller
     public function checkout(Request $request)
     {
         $internId = Auth::guard('interns')->id();
+        $intern = Auth::guard('interns')->user();
+
+        // Check if internship has ended
+        if (today()->greaterThan(Carbon::parse($intern->end_date))) {
+            noty()
+                ->theme('sunset')
+                ->closeWith(['click', 'button'])
+                ->error('Masa magang Anda sudah berakhir.');
+            return redirect()->back();
+        }
 
         $todayAbsence = Absence::where('intern_id', $internId)
             ->whereDate('date', today())
@@ -91,23 +106,31 @@ class AbsenceController extends Controller
         }
 
         // get departement
-        $intern = Auth::guard('interns')->user();
         $end_time = Carbon::parse($intern->department->end_time);
         $checkOut = now();
 
         $checkIn  = Carbon::parse($todayAbsence->check_in);
         $duration = (int) $checkIn->diffInMinutes($checkOut);
 
-        $validation_status = 'disetujui';
-
-        if ($checkOut->lessThan($end_time)) {
+        // Tentukan validation_status berdasarkan kondisi saat ini dan status sebelumnya
+        $validation_status = $todayAbsence->validation_status;
+        
+        // Jika status saat ini sudah "menunggu", tetap "menunggu"
+        // Jika status saat ini "disetujui" dan checkout sebelum jam pulang, ubah ke "menunggu"
+        // Jika status saat ini "disetujui" dan checkout setelah jam pulang, tetap "disetujui"
+        if ($todayAbsence->validation_status === 'disetujui' && $checkOut->lessThan($end_time)) {
             $validation_status = 'menunggu';
+        }
+        
+        $notes_out = null;
+        if ($checkOut->lessThan($end_time)) {
+            $notes_out = $request->notes_out;
         }
 
         $todayAbsence->update([
             'check_out' => $checkOut->format('H:i:s'),
             'duration'  => $duration,
-            'notes_out' => $request->notes_out,
+            'notes_out' => $notes_out,
             'validation_status' => $validation_status
         ]);
 

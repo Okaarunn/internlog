@@ -47,8 +47,10 @@
                         class="block w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white cursor-pointer">
                         <option value="">Semua Status</option>
                         <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Menunggu</option>
-                        <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>Disetujui</option>
-                        <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Ditolak</option>
+                        <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>Disetujui
+                        </option>
+                        <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Ditolak
+                        </option>
                     </select>
                 </div>
 
@@ -122,13 +124,16 @@
                                     @switch($permission->status)
                                         @case('pending')
                                             Menunggu
-                                            @break
+                                        @break
+
                                         @case('approved')
                                             Disetujui
-                                            @break
+                                        @break
+
                                         @case('rejected')
                                             Ditolak
-                                            @break
+                                        @break
+
                                         @default
                                             {{ ucfirst($permission->status) }}
                                     @endswitch
@@ -158,13 +163,16 @@
                                             @switch($permission->status)
                                                 @case('pending')
                                                     Menunggu
-                                                    @break
+                                                @break
+
                                                 @case('approved')
                                                     Disetujui
-                                                    @break
+                                                @break
+
                                                 @case('rejected')
                                                     Ditolak
-                                                    @break
+                                                @break
+
                                                 @default
                                                     {{ ucfirst($permission->status) }}
                                             @endswitch
@@ -250,8 +258,8 @@
                                     </button>
 
                                     {{-- Tombol Tolak --}}
-                                    <button type="submit" name="status" value="rejected"
-                                        class="flex items-center gap-2 px-6 py-2.5 text-sm font-bold text-red-500 bg-white border border-red-200 rounded-xl hover:bg-red-50 transition-all">
+                                    <button type="submit" name="status" value="rejected" @disabled($permission->status !== 'pending')
+                                        class="flex items-center gap-2 px-6 py-2.5 text-sm font-bold {{ $permission->status !== 'pending' ? 'text-gray-400 bg-gray-100 border-gray-200 cursor-not-allowed' : 'text-red-500 bg-white border-red-200 hover:bg-red-50' }} border rounded-xl transition-all">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -261,7 +269,8 @@
 
                                     {{-- Tombol Setujui --}}
                                     <button type="submit" name="status" value="approved"
-                                        class="flex items-center gap-2 px-6 py-2.5 text-sm font-bold text-white bg-green-500 rounded-xl hover:bg-green-600 shadow-lg shadow-green-100 transition-all active:scale-95">
+                                        @disabled($permission->status !== 'pending')
+                                        class="flex items-center gap-2 px-6 py-2.5 text-sm font-bold {{ $permission->status !== 'pending' ? 'text-gray-400 bg-gray-300 cursor-not-allowed' : 'text-white bg-green-500 hover:bg-green-600 shadow-lg shadow-green-100 active:scale-95' }} rounded-xl transition-all">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor"
                                             viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -269,64 +278,68 @@
                                         </svg>
                                         Disetujui
                                     </button>
+
                                 </div>
                             </x-slot:footer>
 
                         </x-edit-modal>
-                    @empty
-                        <tr>
-                            <td colspan="8" class="px-6 py-12 text-center text-gray-500">
-                                <div class="flex flex-col items-center">
-                                    <svg class="w-12 h-12 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                    </svg>
-                                    <p class="text-sm font-medium">Belum ada data perizinan</p>
-                                    <p class="text-xs text-gray-400 mt-1">Data akan muncul ketika peserta mengajukan izin</p>
-                                </div>
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                        @empty
+                            <tr>
+                                <td colspan="8" class="px-6 py-12 text-center text-gray-500">
+                                    <div class="flex flex-col items-center">
+                                        <svg class="w-12 h-12 text-gray-300 mb-4" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                        </svg>
+                                        <p class="text-sm font-medium">Belum ada data perizinan</p>
+                                        <p class="text-xs text-gray-400 mt-1">Data akan muncul ketika peserta mengajukan
+                                            izin</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
 
-            {{-- footer --}}
-            <div class="flex items-center justify-between px-6 py-3 text-sm text-gray-500">
-                <span>Menampilkan {{ $permissions->firstItem() ?? 0 }}-{{ $permissions->lastItem() ?? 0 }} dari
-                    {{ $permissions->total() }} data perizinan</span>
+                {{-- footer --}}
+                <div class="flex items-center justify-between px-6 py-3 text-sm text-gray-500">
+                    <span>Menampilkan {{ $permissions->firstItem() ?? 0 }}-{{ $permissions->lastItem() ?? 0 }} dari
+                        {{ $permissions->total() }} data perizinan</span>
 
-                <div class="flex gap-1">
-                    {{-- Button Previous --}}
-                    @if ($permissions->onFirstPage())
-                        <span
-                            class="px-3 py-1 rounded-md border bg-gray-50 text-gray-300 cursor-not-allowed">&lt;</span>
-                    @else
-                        <a href="{{ $permissions->previousPageUrl() }}"
-                            class="px-3 py-1 rounded-md border bg-white hover:bg-gray-50 transition-colors">&lt;</a>
-                    @endif
-
-                    {{-- Number Page --}}
-                    @foreach ($permissions->getUrlRange(max(1, $permissions->currentPage() - 1), min($permissions->lastPage(), $permissions->currentPage() + 1)) as $page => $url)
-                        @if ($page == $permissions->currentPage())
+                    <div class="flex gap-1">
+                        {{-- Button Previous --}}
+                        @if ($permissions->onFirstPage())
                             <span
-                                class="px-3 py-1 rounded-md bg-blue-600 text-white font-medium">{{ $page }}</span>
+                                class="px-3 py-1 rounded-md border bg-gray-50 text-gray-300 cursor-not-allowed">&lt;</span>
                         @else
-                            <a href="{{ $url }}"
-                                class="px-3 py-1 rounded-md border bg-white hover:bg-gray-50 transition-colors">{{ $page }}</a>
+                            <a href="{{ $permissions->previousPageUrl() }}"
+                                class="px-3 py-1 rounded-md border bg-white hover:bg-gray-50 transition-colors">&lt;</a>
                         @endif
-                    @endforeach
 
-                    {{-- Button Next --}}
-                    @if ($permissions->hasMorePages())
-                        <a href="{{ $permissions->nextPageUrl() }}"
-                            class="px-3 py-1 rounded-md border bg-white hover:bg-gray-50 transition-colors">&gt;</a>
-                    @else
-                        <span
-                            class="px-3 py-1 rounded-md border bg-gray-50 text-gray-300 cursor-not-allowed">&gt;</span>
-                    @endif
+                        {{-- Number Page --}}
+                        @foreach ($permissions->getUrlRange(max(1, $permissions->currentPage() - 1), min($permissions->lastPage(), $permissions->currentPage() + 1)) as $page => $url)
+                            @if ($page == $permissions->currentPage())
+                                <span
+                                    class="px-3 py-1 rounded-md bg-blue-600 text-white font-medium">{{ $page }}</span>
+                            @else
+                                <a href="{{ $url }}"
+                                    class="px-3 py-1 rounded-md border bg-white hover:bg-gray-50 transition-colors">{{ $page }}</a>
+                            @endif
+                        @endforeach
+
+                        {{-- Button Next --}}
+                        @if ($permissions->hasMorePages())
+                            <a href="{{ $permissions->nextPageUrl() }}"
+                                class="px-3 py-1 rounded-md border bg-white hover:bg-gray-50 transition-colors">&gt;</a>
+                        @else
+                            <span
+                                class="px-3 py-1 rounded-md border bg-gray-50 text-gray-300 cursor-not-allowed">&gt;</span>
+                        @endif
+                    </div>
                 </div>
+
+
             </div>
-
-
         </div>
-    </div>
-</x-admin-layout>
+    </x-admin-layout>

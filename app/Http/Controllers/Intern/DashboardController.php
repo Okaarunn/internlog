@@ -31,6 +31,9 @@ class DashboardController extends Controller
             ->whereDate('date', today())
             ->first();
 
+        // check if internship has ended
+        $internshipEnded = today()->greaterThan(Carbon::parse($intern->end_date));
+
         // total attendance summary
         $allAbsences = Absence::where('intern_id', $internId)
             ->get();
@@ -57,11 +60,14 @@ class DashboardController extends Controller
         ];
 
         $permissions = PermissionRequest::where('intern_id', $internId)
+            ->whereMonth('created_at', $month)
+            ->whereYear('created_at', $year)
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->paginate(10)->withQueryString();
+
 
 
         // return data to view
-        return view('intern.dashboard', compact('absences', 'todayAbsence', 'summary', 'permissions'));
+        return view('intern.dashboard', compact('absences', 'todayAbsence', 'summary', 'permissions', 'internshipEnded'));
     }
 }

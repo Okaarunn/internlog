@@ -44,14 +44,16 @@ class AuthController extends Controller
     }
 
     // logout
-    public function logout()
+    public function logout(Request $request)
     {
         Auth::guard('admins')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        
         noty()
             ->theme('sunset')
             ->closeWith(['click', 'button'])
             ->success('Anda berhasil logout.');
-
 
         return redirect()->route('admin-login.show');
     }

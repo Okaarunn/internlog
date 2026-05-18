@@ -14,6 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->redirectGuestsTo('/login');
+        $middleware->alias([
+            'prevent.back' => \App\Http\Middleware\PreventBackHistory::class,
+        ]);
     })
     ->withSchedule(function (Schedule $schedule) {
         $schedule->command(MarkAlphaAbsence::class)->dailyAt('13:32');

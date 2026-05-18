@@ -27,7 +27,11 @@ class PermissionController extends Controller
             ->exists();
 
         if ($alreadyAbsent) {
-            return redirect()->back()->with('error', 'Sudah ada data absensi di salah satu tanggal tersebut');
+            noty()
+                ->theme('sunset')
+                ->closeWith(['click', 'button'])
+                ->error('Sudah ada absensi di tanggal tersebut.');
+            return redirect()->back();
         }
 
         // Buat permission request
@@ -57,6 +61,10 @@ class PermissionController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('success', 'Permintaan izin berhasil diajukan');
+        noty()
+            ->theme('sunset')
+            ->closeWith(['click', 'button'])
+            ->success('Permintaan izin atau sakit berhasil diajukan.');
+        return redirect()->back();
     }
 }

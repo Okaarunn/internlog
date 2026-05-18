@@ -32,7 +32,7 @@
                 </div>
             </div>
 
-            <div>
+            <div id="notes-section">
                 <label class="block text-[#374151] text-sm font-medium mb-1.5">Catatan</label>
                 <textarea name="notes_out" rows="2" placeholder="Tambahkan catatan..."
                     class="w-full px-4 py-2.5 rounded-xl border border-[#E5E7EB] text-[#1E1E1E] text-sm resize-none focus:outline-none focus:border-[#02A740] focus:ring-2 focus:ring-[#02A740]/10 transition-all"></textarea>
@@ -58,6 +58,24 @@
         document.getElementById('checkout-clock-h').textContent = pad(now.getHours());
         document.getElementById('checkout-clock-m').textContent = pad(now.getMinutes());
         document.getElementById('checkout-clock-s').textContent = pad(now.getSeconds());
+        
+        // Check if current time is before department end time
+        @if(Auth::guard('interns')->check() && Auth::guard('interns')->user()->department)
+            const departmentEndTime = '{{ Auth::guard("interns")->user()->department->end_time }}';
+            const [endHour, endMinute] = departmentEndTime.split(':').map(Number);
+            const currentHour = now.getHours();
+            const currentMinute = now.getMinutes();
+            
+            const currentTimeInMinutes = currentHour * 60 + currentMinute;
+            const endTimeInMinutes = endHour * 60 + endMinute;
+            
+            const notesSection = document.getElementById('notes-section');
+            if (currentTimeInMinutes < endTimeInMinutes) {
+                notesSection.style.display = 'block';
+            } else {
+                notesSection.style.display = 'none';
+            }
+        @endif
     }
     updateCheckoutClock();
     setInterval(updateCheckoutClock, 1000);
