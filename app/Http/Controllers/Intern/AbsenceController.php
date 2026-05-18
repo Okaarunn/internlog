@@ -124,6 +124,13 @@ class AbsenceController extends Controller
         
         $notes_out = null;
         if ($checkOut->lessThan($end_time)) {
+            if (empty($request->notes_out)) {
+                noty()
+                    ->theme('sunset')
+                    ->closeWith(['click', 'button'])
+                    ->error('Catatan keluar tidak boleh kosong ketika checkout sebelum jam pulang.');
+                return redirect()->back();
+            }
             $notes_out = $request->notes_out;
         }
 
