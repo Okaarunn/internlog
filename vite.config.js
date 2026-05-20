@@ -8,9 +8,14 @@ export default defineConfig({
             input: ["resources/css/app.css", "resources/js/app.js"],
             refresh: true,
         }),
+
         tailwindcss(),
     ],
+
     server: {
+        host: "127.0.0.1",
+        port: 5173,
+        strictPort: true,
         watch: {
             ignored: ["**/storage/framework/views/**"],
         },

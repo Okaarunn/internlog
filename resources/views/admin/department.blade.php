@@ -83,8 +83,8 @@
                         </div>
                     </div>
                     <div>
-                        <p class="text-[#1E1E1E] text-2xl font-bold">{{ $department->name }}</p>
-                        {{-- <p class="text-[#1E1E1E] text-2xl font-bold">{!! $department->name !!}</p> --}}
+                        {{-- <p class="text-[#1E1E1E] text-2xl font-bold">{{ $department->name }}</p> --}}
+                        <p class="text-[#1E1E1E] text-2xl font-bold">{!! $department->name !!}</p>
                         <div class="flex items-center gap-1 mt-1">
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 640 640">
                                 <path fill="#6B7280"
