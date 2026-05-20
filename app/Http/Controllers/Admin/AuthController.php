@@ -17,6 +17,33 @@ class AuthController extends Controller
         return view('admin.login');
     }
 
+    // public function login(Request $request)
+    // {
+    //     $request->validate([
+    //         'username' => 'required',
+    //         'password' => 'required'
+    //     ]);
+
+    //     // KODE RENTAN: Menggunakan whereRaw agar input tanda petik (') bisa memanipulasi SQL
+    //     $username = $request->username;
+    //     $admin = Admin::whereRaw("username = '$username'")->first();
+
+    //     // MODIFIKASI UJI COBA: Langsung loloskan login JIKA data admin ditemukan,
+    //     // tanpa mengecek validasi Hash::check($request->password)
+    //     if ($admin) {
+    //         Auth::guard('admins')->login($admin);
+    //         $request->session()->regenerate();
+
+    //         noty()
+    //             ->theme('sunset')
+    //             ->closeWith(['click', 'button'])
+    //             ->success('Selamat datang ' . $admin->name . '! Anda berhasil login.');
+    //         return redirect()->route('admin.dashboard');
+    //     }
+
+    //     return redirect()->route('admin-login.show')->with('failed', 'Username atau password salah');
+    // }
+
     // login
     public function login(Request $request)
     {
@@ -49,7 +76,7 @@ class AuthController extends Controller
         Auth::guard('admins')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        
+
         noty()
             ->theme('sunset')
             ->closeWith(['click', 'button'])

@@ -13,27 +13,18 @@ class DepartmentSeeder extends Seeder
      */
     public function run(): void
     {
-        Department::create(
-            [
-                'name' => 'IT',
-                'start_time' => '08:00',
-                'end_time' => '17:00',
-            ],
-            [
-                'name' => 'Finance',
-                'start_time' => '08:00',
-                'end_time' => '17:00',
-            ],
-            [
-                'name' => 'Research and Design',
-                'start_time' => '08:00',
-                'end_time' => '17:00',
-            ],
-            [
-                'name' => 'HR',
-                'start_time' => '08:00',
-                'end_time' => '17:00',
-            ]
-        );
+        $departments = [
+            ['name' => 'IT',                  'start_time' => '08:00', 'end_time' => '17:00'],
+            ['name' => 'Finance',             'start_time' => '08:00', 'end_time' => '17:00'],
+            ['name' => 'Research and Design', 'start_time' => '08:00', 'end_time' => '17:00'],
+            ['name' => 'HR',                  'start_time' => '08:00', 'end_time' => '17:00'],
+        ];
+
+        foreach ($departments as $department) {
+            Department::firstOrCreate(
+                ['name' => $department['name']],
+                $department
+            );
+        }
     }
 }

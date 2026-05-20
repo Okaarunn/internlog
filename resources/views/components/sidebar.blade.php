@@ -92,6 +92,18 @@
                     <span class="ms-3">Dashboard</span>
                 </a>
             </li>
+
+        </ul>
+
+
+        {{-- management --}}
+        <ul class="space-y-2 font-medium border-t border-default pt-4 mt-4">
+            <li class="px-2 pt-2 pb-1">
+                <span class="text-[11px] font-semibold tracking-wider text-gray-400 uppercase">
+                    manajemen
+                </span>
+            </li>
+
             <li>
                 <a href="/admin/absence"
                     class="flex items-center px-2 py-1.5 text-body rounded-base hover:bg-neutral-tertiary hover:text-fg-brand group">
@@ -102,16 +114,6 @@
                     </svg>
                     <span class="flex-1 ms-3 whitespace-nowrap">Absensi</span>
                 </a>
-            </li>
-        </ul>
-
-
-        {{-- management --}}
-        <ul class="space-y-2 font-medium border-t border-default pt-4 mt-4">
-            <li class="px-2 pt-2 pb-1">
-                <span class="text-[11px] font-semibold tracking-wider text-gray-400 uppercase">
-                    manajemen
-                </span>
             </li>
 
             <li>

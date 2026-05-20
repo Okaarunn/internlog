@@ -158,7 +158,7 @@
                                     <div class="md:col-span-2">
                                         <label class="block mb-1 text-xs font-semibold text-heading">Nama
                                             Lengkap</label>
-                                        <input type="text" name="name" value="{{ old('name', $intern->name) }}"
+                                        <input type="text" name="name" value="{{ $intern->name }}"
                                             class="w-full bg-neutral-secondary-medium border border-default-medium rounded-md text-sm px-3 py-2 focus:ring-1 focus:ring-blue-500"
                                             placeholder="Nama sesuai KTP" required>
                                     </div>
@@ -166,7 +166,7 @@
                                     <div>
                                         <label class="block mb-1 text-xs font-semibold text-heading">NIK (16
                                             Digit)</label>
-                                        <input type="text" name="nin" value="{{ old('nin', $intern->nin) }}"
+                                        <input type="text" name="nin" value="{{ $intern->nin }}"
                                             inputmode="numeric" maxlength="16"
                                             oninput="this.value = this.value.replace(/[^0-9]/g, '');"
                                             class="w-full bg-neutral-secondary-medium border border-default-medium rounded-md text-sm px-3 py-2"
@@ -181,11 +181,11 @@
                                             class="w-full bg-neutral-secondary-medium border border-default-medium rounded-md text-sm px-3 py-2"
                                             required>
                                             <option value="laki-laki"
-                                                {{ old('gender', $intern->gender) == 'laki-laki' ? 'selected' : '' }}>
+                                                {{ $intern->gender == 'laki-laki' ? 'selected' : '' }}>
                                                 Laki-laki
                                             </option>
                                             <option value="perempuan"
-                                                {{ old('gender', $intern->gender) == 'perempuan' ? 'selected' : '' }}>
+                                                {{ $intern->gender == 'perempuan' ? 'selected' : '' }}>
                                                 Perempuan
                                             </option>
                                         </select>
@@ -200,7 +200,7 @@
                                             <option value="" disabled hidden>Pilih...</option>
                                             @foreach ($departments as $dept)
                                                 <option value="{{ $dept->id }}"
-                                                    {{ old('department_id', $intern->department_id) == $dept->id ? 'selected' : '' }}>
+                                                    {{ $intern->department_id == $dept->id ? 'selected' : '' }}>
                                                     {{ $dept->name }}
                                                 </option>
                                             @endforeach
@@ -211,8 +211,7 @@
                                     <div>
                                         <label class="block mb-1 text-xs font-semibold text-heading">No.
                                             Telepon</label>
-                                        <input type="text" name="phone"
-                                            value="{{ old('phone', $intern->phone) }}"
+                                        <input type="text" name="phone" value="{{ $intern->phone }}"
                                             class="w-full bg-neutral-secondary-medium border border-default-medium rounded-md text-sm px-3 py-2"
                                             placeholder="08..." required>
                                     </div>
@@ -222,7 +221,7 @@
                                         <label class="block mb-1 text-xs font-semibold text-heading">Alamat</label>
                                         <textarea name="address"
                                             class="w-full bg-neutral-secondary-medium border border-default-medium rounded-md text-sm px-3 py-2"
-                                            placeholder="Alamat domisili" required>{{ old('address', $intern->address) }}</textarea>
+                                            placeholder="Alamat domisili" required>{{ $intern->address }}</textarea>
                                     </div>
 
 
@@ -230,7 +229,7 @@
                                     <div>
                                         <label class="block mb-1 text-xs font-semibold text-heading">Tgl Mulai</label>
                                         <input type="date" name="start_date"
-                                            value="{{ old('start_date', $intern->start_date->format('Y-m-d')) }}"
+                                            value="{{ $intern->start_date->format('Y-m-d') }}"
                                             class="w-full bg-neutral-secondary-medium border border-default-medium rounded-md text-sm px-3 py-2"
                                             required>
                                     </div>
@@ -238,7 +237,7 @@
                                         <label class="block mb-1 text-xs font-semibold text-heading">Tgl
                                             Selesai</label>
                                         <input type="date" name="end_date"
-                                            value="{{ old('end_date', $intern->end_date->format('Y-m-d')) }}"
+                                            value="{{ $intern->end_date->format('Y-m-d') }}"
                                             class="w-full bg-neutral-secondary-medium border border-default-medium rounded-md text-sm px-3 py-2"
                                             required>
                                     </div>
@@ -252,8 +251,7 @@
 
                                     <div>
                                         <label class="block mb-1 text-xs font-semibold text-heading">Username</label>
-                                        <input type="text" name="username"
-                                            value="{{ old('username', $intern->username) }}"
+                                        <input type="text" name="username" value="{{ $intern->username }}"
                                             class="w-full bg-neutral-secondary-medium border border-default-medium rounded-md text-sm px-3 py-2"
                                             required>
                                     </div>
@@ -331,15 +329,15 @@
                 {{-- Nama & NIN --}}
                 <div class="md:col-span-2">
                     <label class="block mb-1 text-xs font-semibold text-heading">Nama Lengkap</label>
-                    <input type="text" name="name" value="{{ old('name') }}"
+                    <input type="text" name="name"
                         class="w-full bg-neutral-secondary-medium border border-default-medium rounded-md text-sm px-3 py-2 focus:ring-1 focus:ring-blue-500"
                         placeholder="Nama sesuai KTP" required>
                 </div>
 
                 <div>
                     <label class="block mb-1 text-xs font-semibold text-heading">NIK (16 Digit)</label>
-                    <input type="text" name="nin" value="{{ old('nin') }}" inputmode="numeric"
-                        maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+                    <input type="text" name="nin" inputmode="numeric" maxlength="16"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '');"
                         class="w-full bg-neutral-secondary-medium border border-default-medium rounded-md text-sm px-3 py-2"
                         placeholder="Nomor Induk" required>
                 </div>
@@ -370,7 +368,7 @@
 
                 <div>
                     <label class="block mb-1 text-xs font-semibold text-heading">No. Telepon</label>
-                    <input type="text" name="phone" value="{{ old('phone') }}"
+                    <input type="text" name="phone"
                         class="w-full bg-neutral-secondary-medium border border-default-medium rounded-md text-sm px-3 py-2"
                         placeholder="08..." required>
                 </div>
@@ -378,7 +376,7 @@
                 {{-- Alamat --}}
                 <div class="md:col-span-2">
                     <label class="block mb-1 text-xs font-semibold text-heading">Alamat</label>
-                    <textarea type="text" name="address" value="{{ old('address') }}"
+                    <textarea type="text" name="address"
                         class="w-full bg-neutral-secondary-medium border border-default-medium rounded-md text-sm px-3 py-2"
                         placeholder="Alamat domisili" required> </textarea>
                 </div>

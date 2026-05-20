@@ -3,7 +3,8 @@
         <div class="flex items-center justify-between my-6">
             <div>
                 <h1 class="text-xl font-semibold text-gray-800">Manajemen Departemen</h1>
-                <p class="text-sm text-gray-400">3 departemen - 1 peserta magang</p>
+                <p class="text-sm text-gray-400">{{ $totalDepartments }} departemen - {{ $totalInterns }} peserta magang
+                </p>
             </div>
 
             <div>
@@ -83,6 +84,7 @@
                     </div>
                     <div>
                         <p class="text-[#1E1E1E] text-2xl font-bold">{{ $department->name }}</p>
+                        {{-- <p class="text-[#1E1E1E] text-2xl font-bold">{!! $department->name !!}</p> --}}
                         <div class="flex items-center gap-1 mt-1">
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 640 640">
                                 <path fill="#6B7280"
@@ -107,7 +109,7 @@
                             </label>
                             <div class="relative">
                                 <input type="text" id="name-{{ $department->id }}" name="name"
-                                    value="{{ old('name', $department->name) }}"
+                                    value="{{ $department->name }}"
                                     class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block w-full px-3 py-2.5 shadow-xs placeholder:text-body transition-colors"
                                     placeholder="Contoh: Engineering" required />
                             </div>
@@ -131,7 +133,7 @@
                                     Jam mulai
                                 </label>
                                 <input type="time" id="start_time-{{ $department->id }}" name="start_time"
-                                    value="{{ old('start_time', \Carbon\Carbon::parse($department->start_time)->format('H:i')) }}"
+                                    value="{{ \Carbon\Carbon::parse($department->start_time)->format('H:i') }}"
                                     class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block w-full px-3 py-2.5 shadow-xs transition-colors"
                                     required />
                             </div>
@@ -142,7 +144,7 @@
                                     Jam selesai
                                 </label>
                                 <input type="time" id="end_time-{{ $department->id }}" name="end_time"
-                                    value="{{ old('end_time', \Carbon\Carbon::parse($department->end_time)->format('H:i')) }}"
+                                    value="{{ \Carbon\Carbon::parse($department->end_time)->format('H:i') }}"
                                     class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block w-full px-3 py-2.5 shadow-xs transition-colors"
                                     required />
                             </div>
@@ -176,7 +178,7 @@
                     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
 
                     </div>
-                    <input type="text" id="name" name="name" value="{{ old('name') }}"
+                    <input type="text" id="name" name="name"
                         class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block w-full pl-9 pr-3 py-2.5 shadow-xs placeholder:text-body transition-colors"
                         placeholder="Contoh: Engineering" required />
                 </div>
@@ -207,7 +209,7 @@
                         Jam mulai
                     </label>
                     <div class="relative">
-                        <input type="time" id="start_time" name="start_time" value="{{ old('start_time') }}"
+                        <input type="time" id="start_time" name="start_time"
                             class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block w-full pl-3 pr-10 py-2.5 shadow-xs transition-colors appearance-none"
                             required />
                         <div class="absolute  inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
@@ -236,7 +238,7 @@
                         Jam selesai
                     </label>
                     <div class="relative">
-                        <input type="time" id="end_time" name="end_time" value="{{ old('end_time') }}"
+                        <input type="time" id="end_time" name="end_time"
                             class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block w-full pl-3 pr-10 py-2.5 shadow-xs transition-colors appearance-none"
                             required />
                         <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">

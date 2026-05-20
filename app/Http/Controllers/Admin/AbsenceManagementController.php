@@ -22,11 +22,11 @@ class AbsenceManagementController extends Controller
         $filterDate = $request->input('date');
 
         $absences = Absence::with(['intern.department', 'admin', 'permissionRequest'])
-            ->where(function($query) {
+            ->where(function ($query) {
                 $query->whereNull('permission_request_id') // absence manual
-                      ->orWhereHas('permissionRequest', function($q) {
-                          $q->whereIn('status', ['approved', 'rejected']); // permission sudah diproses
-                      });
+                    ->orWhereHas('permissionRequest', function ($q) {
+                        $q->whereIn('status', ['approved', 'rejected']); // permission sudah diproses
+                    });
             })
             ->when($search, function ($query, $search) {
                 return $query->whereHas('intern', function ($q) use ($search) {

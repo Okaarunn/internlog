@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Department;
+use App\Models\Intern;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Validator;
@@ -16,8 +17,12 @@ class DepartmentController extends Controller
         // get all department
         $departments = Department::withCount('interns')->get();
 
+        $totalDepartments = $departments->count();
+        $totalInterns = Intern::count();
+
+
         // summary deartment data for dashboard
-        return view('admin.department', compact('departments'));
+        return view('admin.department', compact('departments', 'totalDepartments', 'totalInterns'));
     }
 
     public function store(Request $request)
@@ -25,6 +30,12 @@ class DepartmentController extends Controller
         // check name is exist
         if (Department::where('name', $request->name)->exists()) {
             noty()->theme('sunset')->error('Gagal! Nama departemen sudah terdaftar.');
+            return redirect()->back()->withInput();
+        }
+
+        // check end_time is greater than start_time
+        if ($request->end_time <= $request->start_time) {
+            noty()->theme('sunset')->error('Gagal! Jam selesai harus lebih dari jam mulai.');
             return redirect()->back()->withInput();
         }
 
@@ -43,6 +54,12 @@ class DepartmentController extends Controller
     public function update(Request $request, $id)
     {
         $department = Department::findOrFail($id);
+
+        // check end_time harus setelah start_time
+        if ($request->end_time <= $request->start_time) {
+            noty()->theme('sunset')->error('Gagal! Jam selesai harus lebih dari jam mulai.');
+            return redirect()->back()->withInput();
+        }
 
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:100', Rule::unique('departments')->ignore($id)],
@@ -72,7 +89,7 @@ class DepartmentController extends Controller
             ->theme('sunset')
             ->success('Data berhasil diupdate.');
 
-        return redirect()->back();
+        return redirect()->route('admin.department');
     }
 
     public function destroy($id)
