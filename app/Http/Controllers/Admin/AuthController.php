@@ -56,6 +56,7 @@ class AuthController extends Controller
         // check if the admin is exists
         $admin = Admin::where('username', $request->username)->first();
 
+
         // check if user is exist and password is correct
         if ($admin && Hash::check($request->password, $admin->password)) {
             Auth::guard('admins')->login($admin);

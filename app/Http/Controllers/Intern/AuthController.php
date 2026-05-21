@@ -25,6 +25,10 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
+        // test sql injection
+        // $intern = Intern::whereRaw("username = '" . $request->username . "'")->first();
+
+
         // find user by username
         $intern = Intern::where('username', $request->username)->first();
 
