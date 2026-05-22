@@ -12,22 +12,27 @@
         }
     },
     "buildCommand": "npm run build",
+    "outputDirectory": "public",
     "routes": [
         {
-            "src": "/vendor/(.*)",
-            "dest": "/public/vendor/$1"
+            "src": "/build/assets/(.*)",
+            "dest": "/build/assets/$1"
         },
         {
             "src": "/build/(.*)",
-            "dest": "/public/build/$1"
+            "dest": "/build/$1"
+        },
+        {
+            "src": "/vendor/(.*)",
+            "dest": "/vendor/$1"
         },
         {
             "src": "/logo.png",
-            "dest": "/public/logo.png"
+            "dest": "/logo.png"
         },
         {
             "src": "/img/(.*)",
-            "dest": "/public/img/"
+            "dest": "/img/$1"
         },
         {
             "src": "/(.*)",
@@ -48,6 +53,5 @@
         "CACHE_DRIVER": "array",
         "LOG_CHANNEL": "stderr",
         "SESSION_DRIVER": "database"
-    },
-    "outputDirectory": "public"
+    }
 }
