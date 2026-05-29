@@ -31,6 +31,12 @@ class DashboardController extends Controller
             ->whereDate('date', today())
             ->first();
 
+        // check if current time is beyond department end time
+        $department = $intern->department;
+        $departmentEndTime = Carbon::parse($department->end_time);
+        $currentTime = Carbon::now();
+        $moreThanEndTimeDepartment = $currentTime->greaterThan($departmentEndTime);
+
         // check if internship has ended
         $internshipEnded = today()->greaterThan(Carbon::parse($intern->end_date));
 
@@ -65,9 +71,7 @@ class DashboardController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(10)->withQueryString();
 
-
-
         // return data to view
-        return view('intern.dashboard', compact('absences', 'todayAbsence', 'summary', 'permissions', 'internshipEnded'));
+        return view('intern.dashboard', compact('absences', 'todayAbsence', 'summary', 'permissions', 'internshipEnded', 'moreThanEndTimeDepartment', 'departmentEndTime'));
     }
 }

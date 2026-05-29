@@ -1,7 +1,4 @@
 <x-admin-layout>
-
-
-
     <div class="p-6 sm:ml-64 bg-gray-50 mt-16">
 
         {{-- header --}}

@@ -6,9 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+
     public function up(): void
     {
         Schema::create('interns', function (Blueprint $table) {
@@ -23,17 +21,14 @@ return new class extends Migration
             $table->date('end_date');
             $table->string('username', 100)->unique();
             $table->string('password');
-            
+
             $table->foreign('department_id')->references('id')->on('departments')->cascadeOnDelete();
-            
+
             $table->timestamps();
             $table->softDeletes();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('interns');

@@ -32,8 +32,10 @@
 
 
             <!-- Form action to /login-->
-            <form method="POST" action="{{ route('admin-login.submit') }}" class="space-y-5 relative">
+            <form method="POST" action="{{ route('admin-login.submit') }}" class="space-y-5 relative"
+                id="adminLoginForm">
                 @csrf
+                <input type="hidden" name="g-recaptcha-response" id="recaptchaToken">
 
                 @if (session('failed'))
                     <div
@@ -62,7 +64,8 @@
                         Password
                     </label>
                     <div class="relative">
-                        <input type="password" id="password" name="password" placeholder="Masukkan password admin" required
+                        <input type="password" id="password" name="password" placeholder="Masukkan password admin"
+                            required
                             class="w-full px-4 py-3 pr-12 rounded-xl border border-[#E5E7EB] bg-[#F9FAFB] text-[#1E1E1E] text-[0.9rem] focus:border-[#145EFC] outline-none transition-all">
                         <button type="button" onclick="togglePassword()"
                             class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
@@ -93,12 +96,51 @@
                 </button>
             </form>
 
+
+
             <p class="text-center mt-6 text-gray-400 text-[0.8rem]">
                 &copy; 2026 Internlog. Hak cipta dilindungi.
             </p>
         </div>
     </div>
 </div>
+
+<!-- Google reCAPTCHA v3 Script -->
+<script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
+<script>
+    console.log('reCAPTCHA Site Key loaded:', '{{ config('services.recaptcha.site_key') }}');
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var form = document.getElementById('adminLoginForm');
+        var tokenInput = document.getElementById('recaptchaToken');
+
+        if (!form) {
+            console.error('Form not found!');
+            return;
+        }
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            console.log('Form submitted, requesting reCAPTCHA token...');
+
+            grecaptcha.ready(function() {
+                grecaptcha.execute('{{ config('services.recaptcha.site_key') }}', {
+                    action: 'admin_login'
+                }).then(function(token) {
+                    console.log('✓ reCAPTCHA token received:', token.substring(0, 30) +
+                        '...');
+                    tokenInput.value = token;
+                    console.log('✓ Token set to hidden input. Submitting form...');
+                    form.submit();
+                }).catch(function(err) {
+                    console.error('✗ reCAPTCHA error:', err);
+                    alert(
+                        'Gagal memverifikasi reCAPTCHA. Cek browser console untuk detail.');
+                });
+            });
+        });
+    });
+</script>
 
 <script>
     function togglePassword() {

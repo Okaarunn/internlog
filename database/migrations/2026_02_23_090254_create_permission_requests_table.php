@@ -6,9 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+
     public function up(): void
     {
         Schema::create('permission_requests', function (Blueprint $table) {
@@ -21,18 +19,15 @@ return new class extends Migration
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->uuid('approved_by')->nullable();
             $table->timestamp('approved_at')->nullable();
-            
+
             $table->foreign('intern_id')->references('id')->on('interns')->cascadeOnDelete();
             $table->foreign('approved_by')->references('id')->on('admins')->nullOnDelete();
-            
+
             $table->timestamps();
             $table->softDeletes();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('permission_requests');

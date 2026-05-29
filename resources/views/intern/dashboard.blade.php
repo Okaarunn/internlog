@@ -49,6 +49,21 @@
                     {{ \Carbon\Carbon::parse(Auth::guard('interns')->user()->end_date)->translatedFormat('d F Y') }}.
                 </p>
             </div>
+        @elseif ($moreThanEndTimeDepartment)
+            <div class="bg-[#FEE2E2] border border-[#EF4444] rounded-xl p-4 mb-4">
+                <div class="flex items-center gap-2">
+                    <svg class="w-5 h-5 text-[#DC2626]" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                    </svg>
+                    <span class="text-[#DC2626] text-sm font-semibold">Waktu jam kerja telah berakhir</span>
+                </div>
+                <p class="text-[#991B1B] text-sm mt-1">Anda tidak dapat melakukan absensi karena sudah melewati jam
+                    pulang departemen pukul
+                    {{ $departmentEndTime->format('H:i') }}.
+                </p>
+            </div>
         @endif
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -57,13 +72,16 @@
             @if ($internshipEnded)
                 <button type="button" disabled
                     class="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl text-white text-[0.9rem] font-semibold bg-[#6B7280] opacity-40 cursor-not-allowed">
-                @elseif ($todayAbsence)
+                @elseif ($moreThanEndTimeDepartment)
                     <button type="button" disabled
-                        class="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl text-white text-[0.9rem] font-semibold bg-[#145EFC] opacity-40 cursor-not-allowed">
-                    @else
-                        <button type="button"
-                            onclick="document.getElementById('checkin-modal').classList.remove('hidden')"
-                            class="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl text-white text-[0.9rem] font-semibold bg-[#145EFC] hover:bg-[#0F4FDB] shadow-[0_2px_8px_rgba(20,94,252,0.25)] transition-all cursor-pointer">
+                        class="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl text-white text-[0.9rem] font-semibold bg-[#6B7280] opacity-40 cursor-not-allowed">
+                    @elseif ($todayAbsence)
+                        <button type="button" disabled
+                            class="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl text-white text-[0.9rem] font-semibold bg-[#145EFC] opacity-40 cursor-not-allowed">
+                        @else
+                            <button type="button"
+                                onclick="document.getElementById('checkin-modal').classList.remove('hidden')"
+                                class="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl text-white text-[0.9rem] font-semibold bg-[#145EFC] hover:bg-[#0F4FDB] shadow-[0_2px_8px_rgba(20,94,252,0.25)] transition-all cursor-pointer">
             @endif
             <svg class="w-[18px] h-[18px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                 stroke-width="1.5" stroke="currentColor">
@@ -72,6 +90,8 @@
             </svg>
             @if ($internshipEnded)
                 Magang Selesai
+            @elseif ($moreThanEndTimeDepartment)
+                Jam Kerja Berakhir
             @else
                 {{ $todayAbsence ? 'Sudah Absen' : 'Absen Masuk' }}
             @endif
@@ -81,7 +101,11 @@
             @if ($internshipEnded)
                 <button type="button" disabled
                     class="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl text-white text-[0.9rem] font-semibold bg-[#6B7280] opacity-40 cursor-not-allowed">
-                @elseif (!$todayAbsence || $todayAbsence->check_out || in_array($todayAbsence->status, ['alpha', 'izin', 'sakit']))
+                @elseif (
+                    $moreThanEndTimeDepartment ||
+                        !$todayAbsence ||
+                        $todayAbsence->check_out ||
+                        in_array($todayAbsence->status, ['alpha', 'izin', 'sakit']))
                     <button type="button" disabled
                         class="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl text-white text-[0.9rem] font-semibold bg-[#02A740] opacity-40 cursor-not-allowed">
                     @else
@@ -96,6 +120,8 @@
             </svg>
             @if ($internshipEnded)
                 Magang Selesai
+            @elseif ($moreThanEndTimeDepartment)
+                Jam Kerja Berakhir
             @elseif($todayAbsence?->status === 'alpha')
                 Alpha
             @elseif(in_array($todayAbsence?->status, ['izin', 'sakit']))
@@ -545,4 +571,3 @@
     </script>
 
 </x-intern-layout>
-`
