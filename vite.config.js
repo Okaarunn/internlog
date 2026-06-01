@@ -12,6 +12,12 @@ export default defineConfig({
         tailwindcss(),
     ],
 
+    build: {
+        manifest: "manifest.json",
+        outDir: "public/build",
+        emptyOutDir: true,
+    },
+
     server: {
         host: "127.0.0.1",
         port: 5173,
