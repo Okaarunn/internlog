@@ -40,10 +40,18 @@
         }
     ],
     "env": {
+        "APP_NAME": "Internlog",
+        "APP_KEY": "base64:+/83sGbF3UZnC4c5T5xioSmYeLUVuYztqVLKpZKPf4k=",
         "APP_ENV": "production",
         "APP_DEBUG": "false",
         "APP_URL": "https://internlog-winnicode.vercel.app",
         "DB_CONNECTION": "mysql",
+        "DB_HOST": "72st8i.h.filess.io",
+        "DB_PORT": "61031",
+        "DB_DATABASE": "internlog_important",
+        "DB_USERNAME": "internlog_important",
+        "DB_PASSWORD": "cb45c49afa521aad458e0648998def998f4abd10",
+        "CRON_SECRET": "c8f3f1be5e2abac28242abcd7123d404f0f0c7e623c479df5d63575e24660fdb",
         "APP_CONFIG_CACHE": "/tmp/config.php",
         "APP_EVENTS_CACHE": "/tmp/events.php",
         "APP_PACKAGES_CACHE": "/tmp/packages.php",
@@ -52,6 +60,8 @@
         "VIEW_COMPILED_PATH": "/tmp",
         "CACHE_DRIVER": "array",
         "LOG_CHANNEL": "stderr",
-        "SESSION_DRIVER": "database"
+        "SESSION_DRIVER": "database",
+        "RECAPTCHA_SITE_KEY": "6Lcx1AEtAAAAAFmusiCoEXiWcUm5AGO3JNmvDIVi",
+        "RECAPTCHA_SECRET_KEY": "6Lcx1AEtAAAAAM9MFhUlVm7rcQg9UDsm6yfymPVY"
     }
 }
