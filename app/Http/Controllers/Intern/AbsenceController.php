@@ -113,12 +113,8 @@ class AbsenceController extends Controller
         $checkIn  = Carbon::parse($todayAbsence->check_in);
         $duration = (int) $checkIn->diffInMinutes($checkOut);
 
-        // Tentukan validation_status berdasarkan kondisi saat ini dan status sebelumnya
         $validation_status = $todayAbsence->validation_status;
 
-        // Jika status saat ini sudah "menunggu", tetap "menunggu"
-        // Jika status saat ini "disetujui" dan checkout sebelum jam pulang, ubah ke "menunggu"
-        // Jika status saat ini "disetujui" dan checkout setelah jam pulang, tetap "disetujui"
         if ($todayAbsence->validation_status === 'disetujui' && $checkOut->lessThan($end_time)) {
             $validation_status = 'menunggu';
         }

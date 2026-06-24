@@ -108,8 +108,6 @@
 <!-- Google reCAPTCHA v3 Script -->
 <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
 <script>
-    console.log('reCAPTCHA Site Key loaded:', '{{ config('services.recaptcha.site_key') }}');
-
     document.addEventListener('DOMContentLoaded', function() {
         var form = document.getElementById('adminLoginForm');
         var tokenInput = document.getElementById('recaptchaToken');
@@ -121,21 +119,18 @@
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
-            console.log('Form submitted, requesting reCAPTCHA token...');
 
             grecaptcha.ready(function() {
                 grecaptcha.execute('{{ config('services.recaptcha.site_key') }}', {
                     action: 'admin_login'
                 }).then(function(token) {
-                    console.log('✓ reCAPTCHA token received:', token.substring(0, 30) +
-                        '...');
                     tokenInput.value = token;
-                    console.log('✓ Token set to hidden input. Submitting form...');
                     form.submit();
                 }).catch(function(err) {
                     console.error('✗ reCAPTCHA error:', err);
                     alert(
-                        'Gagal memverifikasi reCAPTCHA. Cek browser console untuk detail.');
+                        'Gagal memverifikasi reCAPTCHA. Cek browser console untuk detail.'
+                        );
                 });
             });
         });

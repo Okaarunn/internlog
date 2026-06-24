@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Admin;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
 class LoginAdminTest extends TestCase
@@ -18,6 +19,14 @@ class LoginAdminTest extends TestCase
         parent::setUp();
 
         $this->admin = $this->createAdmin();
+
+        // Mock reCAPTCHA response for testing
+        Http::fake([
+            'https://www.google.com/recaptcha/api/siteverify' => Http::response([
+                'success' => true,
+                'score' => 0.9
+            ])
+        ]);
     }
 
 
@@ -34,8 +43,9 @@ class LoginAdminTest extends TestCase
     public function test_login_admin_berhasil_dengan_kredensial_valid(): void
     {
         $response = $this->post(route('admin-login.submit'), [
-            'username' => 'admin',
-            'password' => 'admin123',
+            'username' => 'yeremia',
+            'password' => 'adminyeremia',
+            'g-recaptcha-response' => 'dummy-recaptcha-token'
         ]);
 
         $response->assertRedirect(route('admin.dashboard'));
@@ -46,8 +56,9 @@ class LoginAdminTest extends TestCase
     public function test_login_admin_gagal_jika_password_salah(): void
     {
         $response = $this->post(route('admin-login.submit'), [
-            'username' => 'admin',
+            'username' => 'yeremia',
             'password' => 'password_salah',
+            'g-recaptcha-response' => 'dummy-recaptcha-token'
         ]);
 
         $response->assertRedirect(route('admin-login.show'));
@@ -62,6 +73,7 @@ class LoginAdminTest extends TestCase
         $response = $this->post(route('admin-login.submit'), [
             'username' => 'username_ngaco',
             'password' => 'admin123',
+            'g-recaptcha-response' => 'dummy-recaptcha-token'
         ]);
 
         $response->assertRedirect(route('admin-login.show'));
@@ -74,9 +86,10 @@ class LoginAdminTest extends TestCase
         $response = $this->post(route('admin-login.submit'), [
             'username' => '',
             'password' => '',
+            'g-recaptcha-response' => ''
         ]);
 
-        $response->assertSessionHasErrors(['username', 'password']);
+        $response->assertSessionHasErrors(['username', 'password', 'g-recaptcha-response']);
         $this->assertGuest('admins');
     }
 

@@ -50,8 +50,8 @@ abstract class TestCase extends BaseTestCase
     {
         $defaultAttributes = [
             'name'     => 'Jeremiah Isaiah',
-            'username' => 'admin',
-            'password' => bcrypt('admin123'),
+            'username' => 'yeremia',
+            'password' => bcrypt('adminyeremia'),
         ];
 
         return Admin::create(array_merge($defaultAttributes, $attributes));

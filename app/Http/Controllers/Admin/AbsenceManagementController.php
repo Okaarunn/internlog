@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Absence;
 use App\Models\Department;
-use App\Models\PermissionRequest;
 use Illuminate\Http\Request;
 
 use function Flasher\Noty\Prime\noty;
