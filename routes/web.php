@@ -20,12 +20,22 @@ Authentication routes admin and user
 */
 
 // routes/web.php
-Route::get('/cron-absensi', function (Request $request) {
-    \Log::info('Cron job started', ['timestamp' => now(), 'token' => $request->query('token')]);
+Route::get('/cron/mark-alpha', function (Request $request) {
+    \Log::info('Cron job started', ['timestamp' => now()]);
 
-    $token = $request->query('token') ?? $request->header('x-cron-secret');
+    // Membaca header Authorization dari Vercel: "Bearer <token>"
+    $authHeader = $request->header('Authorization');
+    $token = null;
 
-    if ($token !== config('app.cron_secret')) {
+    if ($authHeader && preg_match('/Bearer\s+(.*)$/i', $authHeader, $matches)) {
+        $token = $matches[1];
+    } else {
+        // Fallback ke query parameter (opsional untuk testing manual)
+        $token = $request->query('token');
+    }
+
+    // Bandingkan dengan CRON_SECRET dari Environment Variable
+    if ($token !== env('CRON_SECRET') && $token !== config('app.cron_secret')) {
         \Log::error('Cron unauthorized access', ['provided_token' => $token]);
         abort(403, 'Unauthorized');
     }
@@ -34,7 +44,7 @@ Route::get('/cron-absensi', function (Request $request) {
         Artisan::call('absence:mark-alpha');
         $output = Artisan::output();
         \Log::info('Cron job completed successfully', ['output' => $output]);
-        
+
         return response()->json([
             'status'  => 'success',
             'message' => 'Absensi diproses',
@@ -43,7 +53,7 @@ Route::get('/cron-absensi', function (Request $request) {
         ]);
     } catch (\Exception $e) {
         \Log::error('Cron job failed', ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
-        
+
         return response()->json([
             'status'  => 'error',
             'message' => $e->getMessage(),
