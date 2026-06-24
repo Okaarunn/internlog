@@ -3,7 +3,7 @@
     "crons": [
         {
             "path": "/api/cron/mark-alpha",
-            "schedule": "35 20 * * *"
+            "schedule": "10 10 * * *"
         }
     ],
     "functions": {
