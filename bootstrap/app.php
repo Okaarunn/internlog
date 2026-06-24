@@ -20,7 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withSchedule(function (Schedule $schedule) {
-        $schedule->command(MarkAlphaAbsence::class)->dailyAt('13:32');
+        $schedule->command(MarkAlphaAbsence::class)->dailyAt('17:00');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

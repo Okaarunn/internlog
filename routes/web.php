@@ -21,24 +21,33 @@ Authentication routes admin and user
 
 // routes/web.php
 Route::get('/cron-absensi', function (Request $request) {
+    \Log::info('Cron job started', ['timestamp' => now(), 'token' => $request->query('token')]);
 
     $token = $request->query('token') ?? $request->header('x-cron-secret');
 
     if ($token !== config('app.cron_secret')) {
+        \Log::error('Cron unauthorized access', ['provided_token' => $token]);
         abort(403, 'Unauthorized');
     }
 
     try {
         Artisan::call('absence:mark-alpha');
+        $output = Artisan::output();
+        \Log::info('Cron job completed successfully', ['output' => $output]);
+        
         return response()->json([
             'status'  => 'success',
             'message' => 'Absensi diproses',
-            'output'  => Artisan::output(),
+            'output'  => $output,
+            'timestamp' => now()
         ]);
     } catch (\Exception $e) {
+        \Log::error('Cron job failed', ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+        
         return response()->json([
             'status'  => 'error',
             'message' => $e->getMessage(),
+            'timestamp' => now()
         ], 500);
     }
 });
